@@ -141,7 +141,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _NormalInt: 0.5
-    - _NormalScale: 3.34
+    - _NormalScale: 1.94
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SlopeLimit: 1.36
