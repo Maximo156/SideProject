@@ -53,11 +53,20 @@ public class BuildingParts
 [Serializable]
 public class DungeonParts
 {
-
     public GameObject Floor;
     public GameObject Walls;
     public GameObject Ladder;
     public GameObject Door;
+    public List<GameObject> OuterObjects;
+
+    public GameObject GetOuter()
+    {
+        if (OuterObjects.Count > 0)
+        {
+            return OuterObjects[Random.Range(0, OuterObjects.Count)];
+        }
+        return null;
+    }
 }
 
 

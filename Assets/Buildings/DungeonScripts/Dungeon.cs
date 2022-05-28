@@ -146,7 +146,14 @@ public class Dungeon : BuildingUnifier
                 if (i % 2 == 0) x++;
                 else x--;
             }
+            if (i >= 2 && i % 2 == 0)
+            {
+                int offset = Random.Range(0, floors.GetLength(1));
+                Transform o1 = Instantiate(parts.GetOuter(), bldg.TransformPoint(floors.GetLength(1) * 3, i * 3.2f, offset * 3 - 3f), Quaternion.Euler(0, 90, 0)).transform;
+                o1.SetParent(bldg);
+            }
         }
+  
     }
 
     override
