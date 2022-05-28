@@ -141,7 +141,7 @@ public class Chunk : MonoBehaviour
 
     void addGrass()
     {
-        if (grassLayer == null)
+        if (grassLayer == null && SystemInfo.operatingSystem.ToLower().Contains("window"))
         {
             grassLayer = new GameObject("grassLayer");
             grassLayer.transform.parent = transform;
