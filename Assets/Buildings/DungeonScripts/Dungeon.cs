@@ -12,6 +12,8 @@ public class Dungeon : BuildingUnifier
     int levels;
     (int, int) doorPos;
     float height;
+    MeshRenderer mr;
+    MeshFilter mf;
 
     override
     public bool isDungeon()
@@ -42,14 +44,24 @@ public class Dungeon : BuildingUnifier
         this.manager = manager;
         this.parts = parts;
         bldg = new GameObject("Building").transform;
+        bldg.gameObject.AddComponent<MeshRenderer>();
+        bldg.gameObject.AddComponent<MeshFilter>();
         bldg.SetParent(manager.transform);
         bldg.position = new Vector3(xPos, height, yPos);
-
     }
 
     override
     public void Build()
     {
+        if (!built)
+        {
+            bldg = new GameObject("Building").transform;
+            bldg.gameObject.AddComponent<MeshRenderer>();
+            bldg.gameObject.AddComponent<MeshFilter>();
+            bldg.SetParent(manager.transform);
+            bldg.position = new Vector3(xPos, height, yPos);
+        }
+
         Random.seed = seed;
         built = true;
 
@@ -149,13 +161,32 @@ public class Dungeon : BuildingUnifier
             if (i >= 2 && i % 2 == 0)
             {
                 int offset = Random.Range(0, floors.GetLength(1));
-                Transform o1 = Instantiate(parts.GetOuter(), bldg.TransformPoint(floors.GetLength(1) * 3, i * 3.2f, offset * 3 - 3f), Quaternion.Euler(0, 90, 0)).transform;
+                Transform o1 = Instantiate(parts.GetOuter(), bldg.TransformPoint(floors.GetLength(1) * 3, i * 2.8f, offset * 3 - 3f), Quaternion.Euler(0, 90, 0)).transform;
                 o1.SetParent(bldg);
+
+                offset = Random.Range(0, floors.GetLength(1));
+                Transform o2 = Instantiate(parts.GetOuter(), bldg.TransformPoint(-6, i * 2.8f, offset * 3), Quaternion.Euler(0, -90, 0)).transform;
+                o2.SetParent(bldg);
+
+                offset = Random.Range(0, floors.GetLength(1));
+                Transform o3 = Instantiate(parts.GetOuter(), bldg.TransformPoint(offset * 3 - 3 , i * 2.8f,  -6), Quaternion.Euler(0, -180, 0)).transform;
+                o3.SetParent(bldg);
+
+                offset = Random.Range(0, floors.GetLength(1));
+                Transform o4 = Instantiate(parts.GetOuter(), bldg.TransformPoint(offset * 3, i * 2.8f, floors.GetLength(1) * 3), Quaternion.Euler(0, 0, 0)).transform;
+                o4.SetParent(bldg);
             }
         }
-  
+        Transform roof = Instantiate(parts.roof, bldg.TransformPoint(floors.GetLength(1) * 3 -1.5f, floors.GetLength(0) * 2.7f, floors.GetLength(1)  * 3 -1.5f), Quaternion.Euler(0, 0, 0)).transform;
+        roof.localScale = new Vector3(floors.GetLength(1)+1, floors.GetLength(1)/2, floors.GetLength(1)+1);
+        roof.SetParent(bldg);
+        Combine();
     }
 
+    private void Combine()
+    {
+        bldg.gameObject.AddComponent<MeshCombiner>();
+    }
     override
     public bool SetActive(bool a)
     {
