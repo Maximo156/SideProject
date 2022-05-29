@@ -35,6 +35,13 @@ public class Inventory : MonoBehaviour
         
     }
 
+    public void UpdateSlots()
+    {
+        if(gameObject.name == "Player")
+        {
+            invUIScript.UpdateSlots(itemList);
+        }
+    }
     public Item AddItem(Item newItem)
     {
         GatherQuestUpdate update = new GatherQuestUpdate(newItem.Dup());
@@ -50,11 +57,13 @@ public class Inventory : MonoBehaviour
             } else if (seen && itemList.Count < slotCount)
             {
                 itemList.Insert(i, newItem);
+                UpdateSlots();
                 QuestManager.PushUpdate(update);
                 return null;
             }
             if(newItem.count <= 0)
             {
+                UpdateSlots();
                 QuestManager.PushUpdate(update);
                 return null;
             }
@@ -62,10 +71,12 @@ public class Inventory : MonoBehaviour
         if (itemList.Count < slotCount)
         {
             itemList.Add(newItem);
+            UpdateSlots();
             QuestManager.PushUpdate(update);
             return null;
         }
 
+        UpdateSlots();
         Item.SpawnItem(newItem, transform.position + transform.forward / 2);
         update.item.count -= newItem.count;
 
