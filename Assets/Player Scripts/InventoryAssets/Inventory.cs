@@ -7,10 +7,7 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private int slotCount = 30;
     [SerializeField] private UI_Inventory invUIScript;
-    [SerializeField] private UnityEngine.EventSystems.EventSystem eventSystem;
-    
-    private bool menuOn = false;
-    public bool overSelf = false;
+
     private List<Item> itemList;
     void Start()
     {
@@ -34,28 +31,8 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(overSelf);
-        if (!eventSystem.IsPointerOverGameObject())
-        {
-            overSelf = false;
-        }
-        menuOn = invUIScript.MenuOn();
-
-        if (overSelf)
-        {
-            if (menuOn && Input.GetButtonDown("Fire1") && Input.GetKey(KeyCode.Q))
-            {
-                DropItem();
-            }
-            else if (menuOn && Input.GetButton("Fire1") && Input.GetKeyDown(KeyCode.Q))
-            {
-                DropItem();
-            }
-            else if (menuOn && Input.GetButtonDown("Fire1"))
-            {
-                Equip();
-            }
-        }
+        
+        
     }
 
     public Item AddItem(Item newItem)
@@ -101,37 +78,9 @@ public class Inventory : MonoBehaviour
         return newItem;
     }
 
-    private void DropItem()
-    {
-        string name;
-        if (eventSystem.currentSelectedGameObject != null && (name = eventSystem.currentSelectedGameObject.name)[0] == '$')
-        {
-            int index = int.Parse(name.Replace("$", " ").Trim());
-            if (index >= itemList.Count) return;
-            Item.SpawnItem(itemList[index], transform.position + transform.forward/2);
-            GatherQuestUpdate update = new GatherQuestUpdate(itemList[index]);
-            update.item.count *= -1;
-            QuestManager.PushUpdate(update);
-
-            itemList.RemoveAt(index);
-            invUIScript.UpdateSlots(itemList);
-        }
-    }
-
-    private void Equip()
-    {
-        string name;
-        if (eventSystem.currentSelectedGameObject != null && (name = eventSystem.currentSelectedGameObject.name)[0] == '$')
-        {
-            int index = int.Parse(name.Replace("$", " ").Trim());
-            if (index >= itemList.Count) return;
-            invUIScript.SetAttack(itemList[index]);
-        }
-    }
-
     void OnControllerColliderHit(ControllerColliderHit col)
     {
-        if (col.gameObject.tag == "Item")
+        if (col.gameObject.tag == "Item" && gameObject.name == "Player")
         {
             List<Item> toAdd = col.gameObject.GetComponent<ItemBoxInfo>().GetItem();
             if (toAdd != null)
@@ -144,7 +93,6 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-
 
     public void RemoveItems(List<Item> toRemove)
     {

@@ -12,6 +12,10 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private GameObject questPanel;
     [SerializeField] private GameObject InteractivePanel;
     [SerializeField] private GameObject Player;
+    [SerializeField] private UnityEngine.EventSystems.EventSystem eventSystem;
+
+    Transform playerTrans;
+    private bool overSelf = false;
     private Inventory inv;
     private ladderScript1 ladder;
     private PlayerScript player;
@@ -27,7 +31,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             slots[slots.Count - 1].name = "$"+i;
         }
 
-        Transform playerTrans = GameObject.Find("Player").transform;
+        playerTrans = GameObject.Find("Player").transform;
         ladder = playerTrans.GetComponent<ladderScript1>();
         player = playerTrans.GetComponent<PlayerScript>();
         attack = playerTrans.GetChild(1).GetComponent<AttackScript>();
@@ -47,6 +51,10 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 
     private void Update()
     {
+        if (!eventSystem.IsPointerOverGameObject())
+        {
+            overSelf = false;
+        }
         if (!menuOn && Input.GetButtonDown("Fire2"))
         {
             Interact();
@@ -90,6 +98,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
                 questPanel.SetActive(false);
             }
         }
+
         if(menuOn && Input.GetKeyDown(KeyCode.C))
         {
             craftingPanel.SetActive(!craftingPanel.activeSelf);
@@ -105,6 +114,19 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             if (questPanel.activeSelf)
             {
                 craftingPanel.SetActive(false);
+            }
+        }
+
+
+        if (overSelf)
+        {
+            if (menuOn && ((Input.GetButtonDown("Fire1") && Input.GetKey(KeyCode.Q)) || (Input.GetButton("Fire1") && Input.GetKeyDown(KeyCode.Q))))
+            {
+                DropItem();
+            }
+            else if (menuOn && Input.GetButtonDown("Fire1"))
+            {
+                Equip();
             }
         }
     }
@@ -164,6 +186,37 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        inv.overSelf = true;
+        overSelf = true;
+    }
+
+
+    public void DropItem()
+    {
+        string name;
+        if (eventSystem.currentSelectedGameObject != null && (name = eventSystem.currentSelectedGameObject.name)[0] == '$')
+        {
+            int index = int.Parse(name.Replace("$", " ").Trim());
+            List<Item> itemList = inv.GetItems();
+            if (index >= itemList.Count) return;
+            Item.SpawnItem(itemList[index], playerTrans.position + playerTrans.forward / 2);
+            GatherQuestUpdate update = new GatherQuestUpdate(itemList[index]);
+            update.item.count *= -1;
+            QuestManager.PushUpdate(update);
+
+            itemList.RemoveAt(index);
+            UpdateSlots(itemList);
+        }
+    }
+
+    public void Equip()
+    {
+        string name;
+        if (eventSystem.currentSelectedGameObject != null && (name = eventSystem.currentSelectedGameObject.name)[0] == '$')
+        {
+            List<Item> itemList = inv.GetItems();
+            int index = int.Parse(name.Replace("$", " ").Trim());
+            if (index >= itemList.Count) return;
+            SetAttack(itemList[index]);
+        }
     }
 }
