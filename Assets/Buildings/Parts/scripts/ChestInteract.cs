@@ -23,7 +23,16 @@ public class ChestInteract : InteractScript
         InteractiveContainerUI.SetActive(true);
         InteractiveContainerUI.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "Chest";
         InteractiveContainer.UpdateSlots(inv.GetItems());
-        MainInventoryUI.OpenInventory();
+
+        Inventory playerInv = MainInventoryUI.OpenInventory(this);
+
+        InteractiveContainer.SetReferences(inv, playerInv);
+    }
+
+    public override void Respond(Item response)
+    {
+        inv.AddItem(response);
+        InteractiveContainer.UpdateSlots(inv.GetItems());
     }
 
 }

@@ -8,12 +8,19 @@ public class OtherInvenUI : MonoBehaviour, IPointerEnterHandler
     // Start is called before the first frame update
     [SerializeField] private GameObject ItemSlotReference;
     [SerializeField] private UnityEngine.EventSystems.EventSystem eventSystem;
-    private List<(Item, List<Item>)> usableRecepies = new List<(Item, List<Item>)>();
     bool overOtherInven = false;
+    private Inventory curInv;
+    private Inventory playerInv;
 
     private void Start()
     {
         ClearChildren();
+    }
+
+    public void SetReferences(Inventory cur, Inventory player)
+    {
+        curInv = cur;
+        playerInv = player;
     }
 
     private void Update()
@@ -27,7 +34,7 @@ public class OtherInvenUI : MonoBehaviour, IPointerEnterHandler
         {
             if (Input.GetButtonDown("Fire1"))
             {
-
+                Click();
             }
         }
     }
@@ -59,6 +66,21 @@ public class OtherInvenUI : MonoBehaviour, IPointerEnterHandler
             Destroy(transform.GetChild(i).gameObject);
         }
         transform.DetachChildren();
+    }
+
+    public void Click()
+    {
+        string name;
+        if (eventSystem.currentSelectedGameObject != null && (name = eventSystem.currentSelectedGameObject.name)[0] == '$')
+        {
+            List<Item> itemList = curInv.GetItems();
+            int index = int.Parse(name.Replace("$", " ").Trim());
+            if (index >= itemList.Count) return;
+            
+            playerInv.AddItem(itemList[index]);
+            itemList.RemoveAt(index);
+            UpdateSlots(itemList);
+        }
     }
 
 

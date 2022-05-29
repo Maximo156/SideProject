@@ -22,6 +22,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     private PlayerScript player;
     private AttackScript attack;
     private bool menuOn = false;
+    private InteractScript currentInteraction = null;
     // Start is called before the first frame update
     private List<GameObject> slots = new List<GameObject>();
     void Start()
@@ -63,7 +64,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         }
         if (Input.GetKeyDown("e"))
         {
-            OpenInventory();
+            OpenInventory(null);
         }
 
         if(menuOn && Input.GetKeyDown(KeyCode.C))
@@ -183,12 +184,23 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             List<Item> itemList = inv.GetItems();
             int index = int.Parse(name.Replace("$", " ").Trim());
             if (index >= itemList.Count) return;
-            SetAttack(itemList[index]);
+            if (currentInteraction == null)
+            {
+                SetAttack(itemList[index]);
+            }
+            else
+            {
+                currentInteraction.Respond(itemList[index]);
+                itemList.RemoveAt(index);
+                UpdateSlots(itemList);
+            }
         }
     }
 
-    public void OpenInventory()
+    public Inventory OpenInventory(InteractScript interaction)
     {
+        currentInteraction = interaction;
+
         UpdateSlots(inv.GetItems());
         if (InteractivePanel.activeSelf)
         {
@@ -197,7 +209,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             player.ToggleGo(true);
             attack.ToggleGo(true);
             Cursor.lockState = CursorLockMode.Locked;
-            return;
+            return inv;
         }
 
         menuOn = !menuOn;
@@ -227,5 +239,6 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             questPanel.SetActive(false);
             OtherInvenPanel.SetActive(false);
         }
+        return inv;
     }
 }

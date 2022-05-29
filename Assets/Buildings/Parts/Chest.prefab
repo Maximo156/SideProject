@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7723061752537202006}
   - component: {fileID: 5532994261423901084}
   - component: {fileID: 7837580024596748898}
+  - component: {fileID: 919132149132209821}
+  - component: {fileID: 919132149132209822}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -95,3 +97,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.47961253, y: 0.30574965, z: 0.33402038}
   m_Center: {x: -0.000104643404, y: 0.0032549582, z: 0.038585953}
+--- !u!114 &919132149132209821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325825226200180809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc12042c9c5d4b4881e5ee7057a43c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemSlotReference: {fileID: 0}
+--- !u!114 &919132149132209822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325825226200180809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0cf73844242f443aaa4dd0f22ab018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotCount: 30
+  invUIScript: {fileID: 0}
