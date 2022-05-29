@@ -7,6 +7,7 @@ public static class DungeonGenerator
     static int[,,] floor;
     public static Dungeon Generate(int xSize, int ySize, int rooms, int maxRoomSize, int seed, int xPos, int yPos, int stories = 1)
     {
+        Debug.Log(stories);
         Random.seed = seed;
         floor = new int[stories, xSize, ySize];
         (int, int)[,] roomLocs = new (int, int)[stories, rooms];
@@ -33,17 +34,19 @@ public static class DungeonGenerator
 
         (int, int) doorPos = (0,0);
         float highest = HeightNoise.getHeight(new Vector3(0, 0, 0))[0];
-
+        float lowest = highest;
         for (int x = 0; x<xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
             {
                 Vector3 loc = new Vector3(xPos + x * 3f, 0, yPos+ y * 3f);
-                if(highest < HeightNoise.getHeight(loc)[0])
+                float h = HeightNoise.getHeight(loc)[0];
+                if (highest < h)
                 {
                     doorPos = (x, y);
-                    highest = HeightNoise.getHeight(loc)[0];
+                    highest =h;
                 }
+                lowest = Mathf.Min(lowest, h);
             }
         }
 
@@ -62,7 +65,7 @@ public static class DungeonGenerator
         }
 
 
-        return new Dungeon(floor, stories, doorPos, highest);
+        return new Dungeon(floor, stories, doorPos, highest, highest-lowest);
     }
 
 

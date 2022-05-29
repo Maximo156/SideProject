@@ -80,7 +80,7 @@ public class Building : BuildingUnifier
         this.ruin = ruin;
         this.manager = manager;
 
-        bldg = new GameObject("Building").transform;
+        bldg = new GameObject("Town").transform;
         mr = bldg.gameObject.AddComponent<MeshRenderer>();
         mf = bldg.gameObject.AddComponent<MeshFilter>();
         bldg.SetParent(manager.transform);
@@ -94,7 +94,7 @@ public class Building : BuildingUnifier
     {
         if (!built)
         {
-            bldg = new GameObject("Building").transform;
+            bldg = new GameObject("Town").transform;
             mr = bldg.gameObject.AddComponent<MeshRenderer>();
             mf = bldg.gameObject.AddComponent<MeshFilter>();
             bldg.SetParent(manager.transform);
@@ -107,7 +107,7 @@ public class Building : BuildingUnifier
         Rect bounds = Rect.MinMaxRect(xPos, yPos, xPos+floors.GetLength(1) * 3, yPos+floors.GetLength(2) * 3);
         manager.AddBounds(bounds);
 
-        float density = HeightNoise.getDesnityData(xPos, yPos);
+        //float density = HeightNoise.getDesnityData(xPos, yPos);
         for(int i = 0; i<floors.GetLength(0); i++)
         {
             for (int x = 0; x < floors.GetLength(1); x++)
@@ -235,7 +235,7 @@ public class Building : BuildingUnifier
                             d.SetParent(f);
                         }
                     }
-                    else if (i == 0 && (Random.Range(0f, 1f) * 0.9 + 0.1) < density/2)
+                    else if (i == 0 && Random.Range(0f, 1f) < (ruin ? 0.1 : 0.05))
                     {
                         Vector3 loc = bldg.position;
                         loc.x += x * 3f + Random.Range(0f, 1.5f);

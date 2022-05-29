@@ -119,6 +119,7 @@ public class MeshCombiner : MonoBehaviour
             DestroyImmediate(meshFilters[i].gameObject);
             //meshFilters[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
+        Destroy(gameObject.GetComponent<MeshCombiner>());
     }
 
     private int Contains(ArrayList searchList, string searchName)

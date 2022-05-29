@@ -12,8 +12,7 @@ public class Dungeon : BuildingUnifier
     int levels;
     (int, int) doorPos;
     float height;
-    MeshRenderer mr;
-    MeshFilter mf;
+    float heightDiff;
 
     override
     public bool isDungeon()
@@ -27,13 +26,14 @@ public class Dungeon : BuildingUnifier
         return Vector3.Distance(playerPos, new Vector3(xPos, 0, yPos));
     }
 
-    public Dungeon(int[,,] floors, int levels, (int, int) doorPos, float h)
+    public Dungeon(int[,,] floors, int levels, (int, int) doorPos, float h, float heightDiff)
     {
         this.floors = floors;
         this.levels = levels;
         this.firstOfLevel = new bool[levels];
         this.doorPos = doorPos;
         height = h;
+        this.heightDiff = heightDiff/3;
     }
 
     public void Initialize(int x, int y, DungeonParts parts, int seed, BuildingManager manager)
@@ -43,7 +43,7 @@ public class Dungeon : BuildingUnifier
         this.seed = seed;
         this.manager = manager;
         this.parts = parts;
-        bldg = new GameObject("Building").transform;
+        bldg = new GameObject("Dungeon").transform;
         bldg.gameObject.AddComponent<MeshRenderer>();
         bldg.gameObject.AddComponent<MeshFilter>();
         bldg.SetParent(manager.transform);
@@ -55,7 +55,7 @@ public class Dungeon : BuildingUnifier
     {
         if (!built)
         {
-            bldg = new GameObject("Building").transform;
+            bldg = new GameObject("Dungeon").transform;
             bldg.gameObject.AddComponent<MeshRenderer>();
             bldg.gameObject.AddComponent<MeshFilter>();
             bldg.SetParent(manager.transform);
@@ -115,7 +115,7 @@ public class Dungeon : BuildingUnifier
                             placeWestWall(f, (y == floors.GetLength(2) - 1 && i == 0 && doorPos == (x, y)) ? parts.Door : parts.Walls);                            
                         }
                     }
-                    int additionalFloors = 3;
+                    int additionalFloors = (int)heightDiff + 2;
                     if (i == 0)
                     {
                         Debug.Log(floors.GetLength(0));
@@ -182,10 +182,11 @@ public class Dungeon : BuildingUnifier
         roof.SetParent(bldg);
         Combine();
     }
+    
 
     private void Combine()
     {
-        bldg.gameObject.AddComponent<MeshCombiner>();
+        bldg.gameObject.AddComponent<CountDown>();
     }
     override
     public bool SetActive(bool a)

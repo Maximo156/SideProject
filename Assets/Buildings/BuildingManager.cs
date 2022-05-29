@@ -96,6 +96,7 @@ public class BuildingManager : MonoBehaviour
 
     public float chunkTownChance = 0.1f;
     public float ruinChance = 0.1f;
+    public float chunkTowerChance = 0.1f;
     public float forgetDistance = 10000;
     public float manageDistance = 4000;
     public float renderDistance = 1000;
@@ -108,11 +109,11 @@ public class BuildingManager : MonoBehaviour
     {
         timeToGo = Time.fixedTime + secondsBetweenUpdates;
 
-        int seed = Random.Range(0,102312314);
+       // int seed = Random.Range(0,102312314);
 
-        Dungeon dung = DungeonGenerator.Generate(10, 10, 2, 2, seed, 0,0, 20);
-        dung.Initialize(0,0, DungeonParts, seed, this);
-        dung.Build();
+        //Dungeon dung = DungeonGenerator.Generate(10, 10, 2, 2, seed, 0,0, 20);
+        //dung.Initialize(0,0, DungeonParts, seed, this);
+        //dung.Build();
 
         /*int seed = UnityEngine.Random.Range(0, 100000000);
         Building building = BuildingGenerator.Generate(200/3, 200 / 3, 3, 100, 10, seed);
@@ -183,8 +184,21 @@ public class BuildingManager : MonoBehaviour
             if (hashes.Add(chunkSeed) && biome > -0.2 && biome < 0.2)
             {
                 AddTown(chunkX, chunkY, chunkSideLength, chunkSeed);
+                return;
             }
         }
+
+        spawn = Random.Range(0f, 1f);
+        if (spawn < chunkTowerChance)
+        {
+            float biome = HeightNoise.getBoimeData(chunkX * chunkSideLength, chunkY * chunkSideLength);
+            if (hashes.Add(chunkSeed) && biome > -0.2)
+            {
+                AddTower(chunkX, chunkY, chunkSideLength, chunkSeed);
+                return;
+            }
+        }
+
     }
 
     private void AddTown(int chunkX, int chunkY, float chunkSideLength, int chunkSeed)
@@ -201,5 +215,23 @@ public class BuildingManager : MonoBehaviour
         building.Initialize((int)(chunkX*chunkSideLength), (int)(chunkY*chunkSideLength), (ruin ? RuinParts : (Random.Range(0f, 1f) > 0.5 ? GreenParts : RedParts)), chunkSeed, this, ruin);
 
         objects.Add(building);
+    }
+
+    private void AddTower(int chunkX, int chunkY, float chunkSideLength, int chunkSeed)
+    {
+        Random.seed = chunkSeed;
+
+        int stories = Random.Range(2, 15);
+        int baseSize = Random.Range(5, 10);
+
+        //print(stories);
+        //print(baseSize);
+        //print((int)(chunkX * chunkSideLength) + " " + (int)(chunkY * chunkSideLength));
+
+        Dungeon dungeon = DungeonGenerator.Generate(baseSize, baseSize, (int)Mathf.Ceil(baseSize / 3), 3, chunkSeed, (int)(chunkX * chunkSideLength), (int)(chunkY * chunkSideLength), stories);
+
+        dungeon.Initialize((int)(chunkX * chunkSideLength), (int)(chunkY * chunkSideLength), DungeonParts, chunkSeed, this);
+
+        objects.Add(dungeon);
     }
 }
