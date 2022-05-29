@@ -48,4 +48,9 @@ public class VillagerInteract : InteractScript
         InteractiveContainer.SetActive(true);
         InteractiveContainer.transform.Find("PotentialQuests").GetChild(0).GetComponent<VillagerQuestUI>().UpdateSlots(potentialQuests);
     }
+
+    public override void Respond(Item r)
+    {
+        throw new System.NotImplementedException();
+    }
 }
