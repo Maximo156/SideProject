@@ -118,7 +118,6 @@ public class Dungeon : BuildingUnifier
                     int additionalFloors = (int)heightDiff + 2;
                     if (i == 0)
                     {
-                        Debug.Log(floors.GetLength(0));
                         if (x == floors.GetLength(1) - 1)
                         {
                             Transform w = Instantiate(parts.Walls, bldg.TransformPoint(x * 3f -0.5f, (x,y) == doorPos ? 2.2f : -2.8f* additionalFloors, y * 3-3), Quaternion.Euler(0, -180, 0)).transform;

@@ -7,7 +7,6 @@ public static class DungeonGenerator
     static int[,,] floor;
     public static Dungeon Generate(int xSize, int ySize, int rooms, int maxRoomSize, int seed, int xPos, int yPos, int stories = 1)
     {
-        Debug.Log(stories);
         Random.seed = seed;
         floor = new int[stories, xSize, ySize];
         (int, int)[,] roomLocs = new (int, int)[stories, rooms];
