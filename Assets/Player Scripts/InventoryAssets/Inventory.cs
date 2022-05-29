@@ -50,13 +50,11 @@ public class Inventory : MonoBehaviour
             } else if (seen && itemList.Count < slotCount)
             {
                 itemList.Insert(i, newItem);
-                invUIScript.UpdateSlots(itemList);
                 QuestManager.PushUpdate(update);
                 return null;
             }
             if(newItem.count <= 0)
             {
-                invUIScript.UpdateSlots(itemList);
                 QuestManager.PushUpdate(update);
                 return null;
             }
@@ -64,12 +62,10 @@ public class Inventory : MonoBehaviour
         if (itemList.Count < slotCount)
         {
             itemList.Add(newItem);
-            invUIScript.UpdateSlots(itemList);
             QuestManager.PushUpdate(update);
             return null;
         }
 
-        invUIScript.UpdateSlots(itemList);
         Item.SpawnItem(newItem, transform.position + transform.forward / 2);
         update.item.count -= newItem.count;
 
@@ -127,5 +123,10 @@ public class Inventory : MonoBehaviour
     public List<Item> GetItems()
     {
         return itemList;
+    }
+
+    public void Clear()
+    {
+        itemList.Clear();
     }
 }

@@ -11,6 +11,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private GameObject craftingPanel;
     [SerializeField] private GameObject questPanel;
     [SerializeField] private GameObject InteractivePanel;
+    [SerializeField] private GameObject OtherInvenPanel;
     [SerializeField] private GameObject Player;
     [SerializeField] private UnityEngine.EventSystems.EventSystem eventSystem;
 
@@ -46,6 +47,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         craftingPanel.SetActive(false);
         questPanel.SetActive(false);
         InteractivePanel.SetActive(false);
+        OtherInvenPanel.SetActive(false);
         inv = player.GetComponent<Inventory>();
     }
 
@@ -61,42 +63,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         }
         if (Input.GetKeyDown("e"))
         {
-            if (InteractivePanel.activeSelf)
-            {
-                InteractivePanel.SetActive(false);
-                ladder.ToggleGo(true);
-                player.ToggleGo(true);
-                attack.ToggleGo(true);
-                Cursor.lockState = CursorLockMode.Locked;
-                return;
-            }
-
-            menuOn = !menuOn;
-            
-            if (menuOn)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-
-            ladder.ToggleGo(!menuOn);
-            player.ToggleGo(!menuOn);
-            attack.ToggleGo(!menuOn);
-
-            try
-            {
-                invUI.enabled = menuOn;
-                headsupUI.enabled = !menuOn;
-            }
-            catch (UnassignedReferenceException e) { }
-            if (!menuOn)
-            {
-                craftingPanel.SetActive(false);
-                questPanel.SetActive(false);
-            }
+            OpenInventory();
         }
 
         if(menuOn && Input.GetKeyDown(KeyCode.C))
@@ -217,6 +184,48 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             int index = int.Parse(name.Replace("$", " ").Trim());
             if (index >= itemList.Count) return;
             SetAttack(itemList[index]);
+        }
+    }
+
+    public void OpenInventory()
+    {
+        UpdateSlots(inv.GetItems());
+        if (InteractivePanel.activeSelf)
+        {
+            InteractivePanel.SetActive(false);
+            ladder.ToggleGo(true);
+            player.ToggleGo(true);
+            attack.ToggleGo(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            return;
+        }
+
+        menuOn = !menuOn;
+
+        if (menuOn)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        ladder.ToggleGo(!menuOn);
+        player.ToggleGo(!menuOn);
+        attack.ToggleGo(!menuOn);
+
+        try
+        {
+            invUI.enabled = menuOn;
+            headsupUI.enabled = !menuOn;
+        }
+        catch (UnassignedReferenceException e) { }
+        if (!menuOn)
+        {
+            craftingPanel.SetActive(false);
+            questPanel.SetActive(false);
+            OtherInvenPanel.SetActive(false);
         }
     }
 }
