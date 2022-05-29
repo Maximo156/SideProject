@@ -57,7 +57,9 @@ public class DungeonParts
     public GameObject Walls;
     public GameObject Ladder;
     public GameObject Door;
+    public GameObject roof;
     public List<GameObject> OuterObjects;
+    
 
     public GameObject GetOuter()
     {
@@ -108,7 +110,7 @@ public class BuildingManager : MonoBehaviour
 
         int seed = Random.Range(0,102312314);
 
-        Dungeon dung = DungeonGenerator.Generate(10, 10, 3, 2, seed, 0,0, 10);
+        Dungeon dung = DungeonGenerator.Generate(10, 10, 2, 2, seed, 0,0, 20);
         dung.Initialize(0,0, DungeonParts, seed, this);
         dung.Build();
 

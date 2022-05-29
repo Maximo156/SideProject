@@ -2350,7 +2350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0010375977, y: -0.0007019043}
+  m_AnchoredPosition: {x: 0.0010375977, y: -0.0007324219}
   m_SizeDelta: {x: -8.909973, y: 3.2600098}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858375908
@@ -3357,6 +3357,7 @@ MonoBehaviour:
     Walls: {fileID: 9059931600265666823, guid: ebc8dc10073e2264295588d7d2724c31, type: 3}
     Ladder: {fileID: 48475227505729428, guid: 945cecc50a3e0164bb4eb437e0d56968, type: 3}
     Door: {fileID: 8566685503249514732, guid: ca8d8bc3633da1147bc8a4f99cd44f44, type: 3}
+    roof: {fileID: 6320190633724726063, guid: e48b8dda99e92ba4d88eef685c5bb565, type: 3}
     OuterObjects:
     - {fileID: 7071018578837802352, guid: d97d1dd6a49c13741877797f295917ea, type: 3}
   chunkTownChance: 0.1

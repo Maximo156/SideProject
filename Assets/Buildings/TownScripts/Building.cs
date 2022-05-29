@@ -266,7 +266,6 @@ public class Building : BuildingUnifier
     private void Combine()
     {
         bldg.gameObject.AddComponent<MeshCombiner>();
-        //bldg.position = Vector3.zero;
     }
     private Transform placeNorthWall(Transform parent, GameObject wall, float offset = 0)
     {

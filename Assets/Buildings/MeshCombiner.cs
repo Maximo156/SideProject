@@ -21,7 +21,7 @@ public class MeshCombiner : MonoBehaviour
         int count = 0;
         foreach (MeshFilter meshFilter in meshFilters)
         {
-            if(meshFilter.gameObject.GetComponent<HealthScript>() != null)  continue; 
+            if(meshFilter == null || meshFilter.gameObject.GetComponent<HealthScript>() != null)  continue; 
             MeshRenderer meshRenderer = meshFilter.GetComponent<MeshRenderer>();
 
             if (!meshRenderer ||
@@ -115,7 +115,7 @@ public class MeshCombiner : MonoBehaviour
 
         for (int i = 1; i < meshFilters.Length; i++)
         {
-            if (meshFilters[i].gameObject.GetComponent<HealthScript>() != null) continue;
+            if (meshFilters[i] == null ||  meshFilters[i].gameObject.GetComponent<HealthScript>() != null) continue;
             DestroyImmediate(meshFilters[i].gameObject);
             //meshFilters[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
