@@ -176,7 +176,7 @@ public class BuildingManager : MonoBehaviour
     {
         int chunkSeed = (new Vector2(hash(chunkX), hash(chunkY))).GetHashCode();
         float height = HeightNoise.getHeight(new Vector3(chunkX, 0, chunkY) * chunkSideLength)[0];
-        if (height < 105) return;
+        if (height < 90) return;
 
         Random.seed = chunkSeed+10;
         float spawn = Random.Range(0f, 1f);

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Inventory))]
 public class ChestInteract : InteractScript
 {
-    [SerializeField] private GameObject ItemSlotReference;
     private Inventory inv;
     private GameObject InteractiveContainerUI;
     private OtherInvenUI InteractiveContainer;
