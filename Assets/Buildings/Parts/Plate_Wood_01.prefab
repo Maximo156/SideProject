@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5049673927480060024}
   - component: {fileID: 3181926080196507855}
+  - component: {fileID: 1776008795}
   m_Layer: 0
   m_Name: Plate_Wood_01
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5049673927480554584}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -45,6 +46,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 0.3, z: 3}
   m_Center: {x: -1.5, y: 0.15, z: -1.5}
+--- !u!114 &1776008795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049673927480554584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2444b2ecb0fe1c74496a6282830af2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: -1.5, y: 0, z: -1.5}
+  size: {x: 1, y: 0, z: 1}
+  possibleChildren:
+  - {fileID: 4958534389779374699, guid: dda36c07b9ac8c947b4a58cb3647d06f, type: 3}
+  - {fileID: 4507538265954845877, guid: eac83c88d90fd5944834d357cf3e2045, type: 3}
+  - {fileID: 8635568272475077955, guid: 1f10ef6ba1b76de46ae12a800bda3adf, type: 3}
+  - {fileID: 4311910305724641923, guid: 41ed9107076a92e47aa4d8c47ee2f272, type: 3}
+  - {fileID: 6169760871025498242, guid: 3beadcac6d421d14bab918b310b84d3d, type: 3}
+  canRotates: 01010101010101
+  maxChildren: 1
+  MinDist: 0.75
 --- !u!1 &5049673927480554586
 GameObject:
   m_ObjectHideFlags: 0

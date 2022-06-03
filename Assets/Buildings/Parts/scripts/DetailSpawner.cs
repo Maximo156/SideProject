@@ -39,8 +39,10 @@ public class DetailSpawner : MonoBehaviour
 
     private void GenChildren()
     {
-        Random.seed = transform.position.GetHashCode();
-        int spawnCount = Mathf.Max(0, Random.Range(0, maxChildren+2) - 1);
+
+        //Random.seed = transform.position.GetHashCode();
+        int spawnCount = maxChildren;// Mathf.Max(0, Random.Range(0, maxChildren+2) - 1);
+        print(spawnCount);
         List<Vector3> used = new List<Vector3>();
         for(int i = 0; i< spawnCount; i++)
         {
@@ -50,8 +52,6 @@ public class DetailSpawner : MonoBehaviour
             do
             {
                 loc = transform.TransformPoint(RandomPointInBounds(bounds));
-
-            //} while (Physics.OverlapBox(transform.position, toInstanciate.GetComponent<BoxCollider>().bounds.size).Length > 1);
             } while (used.Where(v => Vector3.Distance(v, loc) < MinDist).ToList().Count > 0);
             GameObject child = Instantiate(toInstanciate, transform.TransformPoint(RandomPointInBounds(bounds)), transform.rotation,transform);
             if (canRotate) child.transform.Rotate(Vector3.up, Random.Range(0, 360), Space.World);

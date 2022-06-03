@@ -84,7 +84,7 @@
     <Compile Include="Assets\Buildings\MeshCombiner.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestUI.cs" />
     <Compile Include="Assets\AI\Models\MyIKFootLocator.cs" />
-    <Compile Include="Assets\General Scripts\OtherInvenUI.cs" />
+    <Compile Include="Assets\Player Scripts\InventoryAssets\OtherInvenUI.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Item.cs" />
     <Compile Include="Assets\General Scripts\WaterController.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainLODController.cs" />
