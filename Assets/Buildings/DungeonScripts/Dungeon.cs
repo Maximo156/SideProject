@@ -85,7 +85,7 @@ public class Dungeon : BuildingUnifier
                         }
 
                         Transform f = Instantiate((placeSpecial && i != 0) ? parts.Ladder.transform : parts.Floor.transform, bldg.TransformPoint(x * 3f, i * 2.8f, y * 3), Quaternion.identity);
-                        Transform c = Instantiate(parts.Floor.transform, bldg.TransformPoint(x * 3f, i * 2.8f + 2.5f, y * 3), Quaternion.identity);
+                        Transform c = Instantiate(parts.Ceiling.transform, bldg.TransformPoint(x * 3f, i * 2.8f + 2.5f, y * 3), Quaternion.identity);
                         f.SetParent(bldg);
                         c.SetParent(bldg);
 

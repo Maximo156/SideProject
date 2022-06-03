@@ -119,6 +119,11 @@ public class MeshCombiner : MonoBehaviour
             DestroyImmediate(meshFilters[i].gameObject);
             //meshFilters[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
+        //DetailSpawner[] s = GetComponentsInChildren<DetailSpawner>();
+        /*foreach(var sp in s)
+        {
+            sp.Call();
+        }*/
         Destroy(gameObject.GetComponent<MeshCombiner>());
     }
 

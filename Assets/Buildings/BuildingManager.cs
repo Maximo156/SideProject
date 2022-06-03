@@ -11,6 +11,7 @@ public class BuildingParts
 {
     public int spawnAttempts;
     public GameObject Floor;
+    public GameObject Ceiling;
     public GameObject[] Walls;
     public GameObject[] Roofs;
     public GameObject[] Fillers;
@@ -54,6 +55,7 @@ public class BuildingParts
 public class DungeonParts
 {
     public GameObject Floor;
+    public GameObject Ceiling;
     public GameObject Walls;
     public GameObject Ladder;
     public GameObject Door;

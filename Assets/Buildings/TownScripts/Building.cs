@@ -231,7 +231,7 @@ public class Building : BuildingUnifier
                                 Transform c = Instantiate(parts.Roofs[3].transform, f.TransformPoint(0, 2.5f, 0), Quaternion.Euler(0, 0, 0));
                                 c.SetParent(f);
                             }
-                            Transform d = Instantiate(parts.Floor.transform, f.TransformPoint(0, 2.20f, 0), Quaternion.Euler(0, 0, 0));
+                            Transform d = Instantiate(parts.Ceiling.transform, f.TransformPoint(0, 2.20f, 0), Quaternion.Euler(0, 0, 0));
                             d.SetParent(f);
                         }
                     }
