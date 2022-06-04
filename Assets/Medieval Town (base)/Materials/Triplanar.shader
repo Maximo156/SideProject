@@ -3,10 +3,15 @@ Shader "Custom/Triplanar"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
+        _Moss("MossTexture", 2D) = "white" {}
+        
         _Normal ("Normal", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _Scale("Scale" , float) = 1
+        _MossScale("MossScale" , float) = 1
+        _MossTextureScale("MossTextureScale" , float) = 1
+        _MossStrength("MossStrength" , float) = 0
     }
     SubShader
     {
@@ -19,9 +24,15 @@ Shader "Custom/Triplanar"
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
+        #include "Assets/Materials/BiomeNoise.hlsl"
 
         sampler2D _Normal;
         float _Scale;
+
+        sampler2D _Moss;
+        float _MossScale;
+        float _MossTextureScale;
+        float _MossStrength;
 
         struct Input
         {
@@ -33,8 +44,16 @@ Shader "Custom/Triplanar"
         half _Metallic;
         fixed4 _Color;
 
-
         half3 triplanar(float3 worldPos, float3 blendAxes, sampler2D text) {
+
+            float3 xProj = (tex2D(text, worldPos.zy)) * blendAxes.x;
+            float3 yProj = (tex2D(text, worldPos.xz)) * blendAxes.y;
+            float3 zProj = (tex2D(text, worldPos.xy)) * blendAxes.z;
+
+            return xProj + yProj + zProj;
+        }
+
+        half3 triplanarNormal(float3 worldPos, float3 blendAxes, sampler2D text) {
 
             float3 xProj = UnpackNormal(tex2D(text, worldPos.zy)) * blendAxes.x;
             float3 yProj = UnpackNormal(tex2D(text, worldPos.xz)) * blendAxes.y;
@@ -53,15 +72,20 @@ Shader "Custom/Triplanar"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             IN.worldNormal = WorldNormalVector(IN, float3(0, 0, 1));
-            // Albedo comes from a texture tinted by color
-            o.Albedo = _Color;
-            // Metallic and smoothness come from slider variables
-            o.Alpha = _Color.a;
-            //half3 sandNormal = UnpackNormal(textureNoTile(IN.worldPos.xz, SandNormal, 10));
-            //half3 stoneNormal = UnpackNormal(textureNoTile(IN.worldPos.xz, StoneNormal, 10));
             float3 blendAxes = abs(IN.worldNormal);
             blendAxes /= blendAxes.x + blendAxes.y + blendAxes.z;
-            o.Normal = triplanar(IN.worldPos / _Scale, blendAxes, _Normal);
+            // Albedo comes from a texture tinted by color
+            float mossStrength = GetNoise(IN.worldPos, _MossScale) * _MossStrength;
+
+
+            float3 moss = triplanar(IN.worldPos / _MossTextureScale, blendAxes, _Moss);
+
+
+            mossStrength = max(0, min(1, mossStrength));
+            o.Albedo = ((1 - mossStrength)* _Color) + (mossStrength * moss);
+            o.Alpha = _Color.a;
+
+            o.Normal = (1 - pow(mossStrength, 0.5)) * triplanarNormal(IN.worldPos / _Scale, blendAxes, _Normal)  + pow(mossStrength, 0.5) * half3(0,0,1);
         }
         ENDCG
     }

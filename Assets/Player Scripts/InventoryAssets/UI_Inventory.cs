@@ -133,6 +133,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             InteractScript interactObject = info.transform.gameObject.GetComponent<InteractScript>();
             if (interactObject != null)
             {
+
                 OtherAI AI = info.transform.gameObject.GetComponent<OtherAI>();
                 if(AI != null)
                 {
