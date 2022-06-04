@@ -97,7 +97,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1596665409944361983
 Transform:
@@ -133,7 +133,8 @@ MonoBehaviour:
   - {fileID: 8439651723884718696, guid: 88d31396fc369a343916654f503c79c7, type: 3}
   - {fileID: 3319939028708485958, guid: 8ccbac3122206af41b131e71aa3c0321, type: 3}
   - {fileID: 743427836990503723, guid: 38fc80af34007884c9cb4ee7862d02c6, type: 3}
-  canRotates: 00000000
+  - {fileID: 8075075712422146082, guid: 73cad4a78d6f35a45871932760b8b36a, type: 3}
+  canRotates: 0000000000
   maxChildren: 3
   MinDist: 0.1
 --- !u!65 &7701300016816140481
