@@ -40,9 +40,8 @@ public class DetailSpawner : MonoBehaviour
     private void GenChildren()
     {
 
-        //Random.seed = transform.position.GetHashCode();
-        int spawnCount = maxChildren;// Mathf.Max(0, Random.Range(0, maxChildren+2) - 1);
-        print(spawnCount);
+        Random.seed = transform.position.GetHashCode();
+        int spawnCount = Mathf.Max(0, Random.Range(0, maxChildren+2) - 1);
         List<Vector3> used = new List<Vector3>();
         for(int i = 0; i< spawnCount; i++)
         {

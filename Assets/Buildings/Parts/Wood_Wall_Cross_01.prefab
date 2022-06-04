@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2512309360134053119}
   - component: {fileID: 3024265583125576432}
+  - component: {fileID: 1433874128878365568}
   m_Layer: 0
   m_Name: Wood_Wall_Cross_01
   m_TagString: Untagged
@@ -107,7 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2512309360133816543}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -128,3 +129,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 2.2, z: 3}
   m_Center: {x: -0.25, y: 1.1, z: -1.5}
+--- !u!114 &1433874128878365568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512309360133816543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2444b2ecb0fe1c74496a6282830af2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: 0, y: 1, z: -1.5}
+  size: {x: 0, y: 1, z: 1.5}
+  possibleChildren:
+  - {fileID: 5740252766765692113, guid: d9caf3b265190e041a1f657cdab1c6db, type: 3}
+  - {fileID: 3252446311193438640, guid: 7780d7b225c908a498cc8849dee1147b, type: 3}
+  canRotates: 0000
+  maxChildren: 1
+  MinDist: 1
