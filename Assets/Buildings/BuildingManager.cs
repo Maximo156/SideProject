@@ -86,8 +86,6 @@ public class BuildingManager : MonoBehaviour
     }
 
 
-    private List<Rect> townBounds = new List<Rect>();
-
     private SortedSet<int> hashes = new SortedSet<int>();
     private List<BuildingUnifier> objects = new List<BuildingUnifier>();
 
@@ -147,31 +145,12 @@ public class BuildingManager : MonoBehaviour
                 {
                     int toRemove = objects[i].Forget();
                     objects.RemoveAt(i);
-                    if(townBounds.Count > i)
-                        townBounds.RemoveAt(i);
                     hashes.Remove(toRemove);
                 }
             }
 
             timeToGo = Time.fixedTime + secondsBetweenUpdates;
         }
-    }
-
-    public bool ValidTerrainPos(Vector2 pos)
-    {
-        foreach (var town in townBounds)
-        {
-            if (town.Contains(pos))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void AddBounds(Rect r)
-    {
-        townBounds.Add(r);
     }
 
     public void TryAddTown(int chunkX, int chunkY, float chunkSideLength)

@@ -34,6 +34,8 @@ public class TerrainAssetManager : MonoBehaviour
 #else
     private List<TerrainAssetChunk> chunkQueue = new List<TerrainAssetChunk>();
 #endif
+
+    private int layerMask = ~(1 << 2);
     [Serializable]
     public class BiomeObjects
     {
@@ -56,6 +58,7 @@ public class TerrainAssetManager : MonoBehaviour
             for(int i = 0; i<maxInstances; i++)
             {
                 GameObject next = Instantiate(reference, parent.transform);
+                next.layer = 2;
                 next.name = index + "";
                 next.SetActive(false);
                 objectPool.AddLast(next);
@@ -319,11 +322,6 @@ public class TerrainAssetManager : MonoBehaviour
             Vector3 pos = new Vector3(obj.x, obj.y-0.2f, obj.z);
             Vector2 pos2D = new Vector2(obj.x, obj.z);
 
-            if (!buildings.ValidTerrainPos(pos2D))
-            {
-                continue;
-            }
-
             int type = (int)obj[3];
 
             Vector2 p1 = V3toV2(player.forward);
@@ -332,11 +330,16 @@ public class TerrainAssetManager : MonoBehaviour
             {
                 if (!usedObjects.ContainsKey(pos) && !brokenObjects.ContainsKey(pos))
                 {
-                    GameObject instance = CheckOut(type);
-                    if (instance != null)
+                    
+                    RaycastHit hit;
+                    if (!Physics.Raycast(pos, Vector3.up, out hit, 10, layerMask))
                     {
-                        instance.transform.position = pos;
-                        usedObjects.Add(pos, instance);
+                        GameObject instance = CheckOut(type);
+                        if (instance != null)
+                        {
+                            instance.transform.position = pos;
+                            usedObjects.Add(pos, instance);
+                        }
                     }
                 }
             }

@@ -104,10 +104,6 @@ public class Building : BuildingUnifier
         Random.seed = seed;
         built = true;
 
-        Rect bounds = Rect.MinMaxRect(xPos, yPos, xPos+floors.GetLength(1) * 3, yPos+floors.GetLength(2) * 3);
-        manager.AddBounds(bounds);
-
-        //float density = HeightNoise.getDesnityData(xPos, yPos);
         for(int i = 0; i<floors.GetLength(0); i++)
         {
             for (int x = 0; x < floors.GetLength(1); x++)
@@ -128,7 +124,10 @@ public class Building : BuildingUnifier
 
                         Transform f = Instantiate(ladder ? parts.Ladder.transform : parts.Floor.transform, bldg.TransformPoint(x * 3f, i * 2.5f + sections[sectionNumber-1] +0.25f, y * 3), Quaternion.identity);
                         f.SetParent(bldg);
-
+                        if (placeDoor)
+                        {
+                            Destroy(f.GetComponent<DetailSpawner>());
+                        }
                         
 
                         bool north = false;
@@ -235,7 +234,7 @@ public class Building : BuildingUnifier
                             d.SetParent(f);
                         }
                     }
-                    else if (i == 0 && Random.Range(0f, 1f) < (ruin ? 0.1 : 0.05))
+                    else if (i == 0 && Random.Range(0f, 1f) < (ruin ? 0.01 : 0.005))
                     {
                         Vector3 loc = bldg.position;
                         loc.x += x * 3f + Random.Range(0f, 1.5f);

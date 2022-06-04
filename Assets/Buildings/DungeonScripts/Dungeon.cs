@@ -65,8 +65,6 @@ public class Dungeon : BuildingUnifier
         Random.seed = seed;
         built = true;
 
-        Rect bounds = Rect.MinMaxRect(xPos, yPos, xPos + floors.GetLength(1) * 3, yPos + floors.GetLength(2) * 3);
-        manager.AddBounds(bounds);
 
         for (int i = 0; i < floors.GetLength(0); i++)
         {
