@@ -15,6 +15,7 @@ public class TerrainAssetChunk
     string chunkID;
 
     public Vector4[] TerrainObjects;
+    public Vector3[] TerrainNormals;
     public bool objGood = false;
     public bool hasRequested = false;
 
@@ -59,34 +60,34 @@ public class TerrainAssetChunk
         try
         {
             if (biomeNoise < -0.43)
-                return TerrainAssetManager.Biomes[0].types[rand.Next(0, TerrainAssetManager.Biomes[0].types.Count)];
+                return TerrainAssetManager.GetBiomeObject(0, rand); //return TerrainAssetManager.Biomes[0].types[rand.Next(0, TerrainAssetManager.Biomes[0].types.Count)];
             else if (biomeNoise < -0.23)
             {
                 if (nextDouble(rand, -0.43f, -0.23f) > biomeNoise)
                 {
-                    return TerrainAssetManager.Biomes[0].types[rand.Next(0, TerrainAssetManager.Biomes[0].types.Count)];
+                    return TerrainAssetManager.GetBiomeObject(0, rand); // Biomes[0].types[rand.Next(0, TerrainAssetManager.Biomes[0].types.Count)];
                 }
                 else
                 {
-                    return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
+                    return TerrainAssetManager.GetBiomeObject(1, rand);  //return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
                 }
             }
             else if (biomeNoise < 0.23f)
-                return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
+                return TerrainAssetManager.GetBiomeObject(1, rand);  //return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
             else if (biomeNoise < 0.43f)
             {
                 if (nextDouble(rand, 0.23f, 0.43f) > biomeNoise)
                 {
-                    return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
+                    return TerrainAssetManager.GetBiomeObject(1, rand);  //return TerrainAssetManager.Biomes[1].types[rand.Next(0, TerrainAssetManager.Biomes[1].types.Count)];
                 }
                 else
                 {
-                    return TerrainAssetManager.Biomes[2].types[rand.Next(0, TerrainAssetManager.Biomes[2].types.Count)];
+                    return TerrainAssetManager.GetBiomeObject(2, rand);  //return TerrainAssetManager.Biomes[2].types[rand.Next(0, TerrainAssetManager.Biomes[2].types.Count)];
                 }
             }
-        
-            int toReturn = TerrainAssetManager.Biomes[2].types[rand.Next(0, TerrainAssetManager.Biomes[2].types.Count)];
-            return toReturn;
+
+            return TerrainAssetManager.GetBiomeObject(2, rand);//int toReturn = TerrainAssetManager.Biomes[2].types[rand.Next(0, TerrainAssetManager.Biomes[2].types.Count)];
+            //return toReturn;
         }
         catch (NullReferenceException e)
         {
@@ -95,26 +96,28 @@ public class TerrainAssetChunk
         }
     }
 
-    float Slope(float x, float y)
+    Vector3 Slope(float x, float y)
     {
-        Vector3 p1 = new Vector3(x - 0.5f, 0, y);
+        Vector3 p1 = new Vector3(x - 1, 0, y);
         p1.y = HeightNoise.getHeight(p1)[0];
 
-        Vector3 p2 = new Vector3(x, 0, y - 0.5f);
+        Vector3 p2 = new Vector3(x, 0, y - 1);
         p2.y = HeightNoise.getHeight(p2)[0];
 
-        Vector3 p3 = new Vector3(x+0.5f, 0, y + 0.5f);
+        Vector3 p3 = new Vector3(x+1, 0, y + 1);
         p3.y = HeightNoise.getHeight(p3)[0];
 
         Vector3 normal = Vector3.Cross(p3 - p1, p2 - p1);
         normal.Normalize();
-        return 1 - normal.y;
+        return normal;
+        //return 1 - normal.y;
     }
 
     private void ObjectGen(float sideLength, int numObjects, int minDistance, int Chunkx, int Chunkz)
     {
         var rand = new System.Random((Chunkx + ":" + Chunkz).GetHashCode());
         Vector4[] objs = new Vector4[numObjects];
+        Vector3[] norms = new Vector3[numObjects];
         for (int i = 0; i < numObjects; i++)
         {
             float x = (float)rand.NextDouble() * sideLength + Chunkx * sideLength;
@@ -136,13 +139,18 @@ public class TerrainAssetChunk
             if (HeightNoise.getDesnityData(x, y) > rand.NextDouble()*0.9+0.1)
             {
                 float height = HeightNoise.getHeight(new Vector3(x, 0, y))[0];
-                if(height > 105 && Slope(x,y) < 0.1)
-                    objs[i] = new Vector4(x, height, y, GetObjectType(HeightNoise.getBoimeData(x, y) , rand));
+                Vector3 normal = Slope(x, y);
+                if (height > 105 && 1 - normal.y < 0.1)
+                {
+                    objs[i] = new Vector4(x, height, y, GetObjectType(HeightNoise.getBoimeData(x, y), rand));
+                    norms[i] = normal;
+                }
             }
         }
         objs = objs.Where(x => x != new Vector4(0,0,0,0)).ToArray();
         objs = objs.Distinct().ToArray();
         this.TerrainObjects = objs;
+        TerrainNormals = norms;
         objGood = true;
 
     }

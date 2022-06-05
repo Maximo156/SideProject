@@ -17,6 +17,7 @@ public class TerrainAssetManager : MonoBehaviour
     public int maximumAssetsNS;
     public int chunkAngleCheck = 80;
     public int objectAngleCheck = 50;
+    public int largeRocksStart = 9;
 
     public BuildingManager buildings;
     public Transform player;
@@ -43,7 +44,6 @@ public class TerrainAssetManager : MonoBehaviour
         public List<float> percentages;
     }
 
-    
 
     [Serializable]
     public class TerrainObjects
@@ -58,7 +58,7 @@ public class TerrainAssetManager : MonoBehaviour
             for(int i = 0; i<maxInstances; i++)
             {
                 GameObject next = Instantiate(reference, parent.transform);
-                next.layer = 2;
+                if(index < 9) next.layer = 2;
                 next.name = index + "";
                 next.SetActive(false);
                 objectPool.AddLast(next);
@@ -92,6 +92,18 @@ public class TerrainAssetManager : MonoBehaviour
         }
     }
 
+    public static int GetBiomeObject(int biomeIndex, System.Random rand)
+    {
+        float r = (float)rand.NextDouble();
+        float c = Biomes[biomeIndex].percentages[0];
+        int count = 0;
+        while (c < r && count < Biomes[biomeIndex].percentages.Count)
+        {
+            count++;
+            c += Biomes[biomeIndex].percentages[count];
+        }
+        return Biomes[biomeIndex].types[Mathf.Min(count, Biomes[biomeIndex].types.Count)];
+    }
 
     GameObject CheckOut(int type)
     {
@@ -164,8 +176,8 @@ public class TerrainAssetManager : MonoBehaviour
         Vector2 p = V3toV2(player.forward);
         foreach (var obj in usedObjects.ToList())
         {
-            Vector2 wp = V3toV2(obj.Key) + V3toV2(player.forward) * 5;
-            if (Vector2.Angle(p, wp - V3toV2(player.position)) > objectAngleCheck || Vector2.Distance(wp, V3toV2(player.position)) > 100)
+            Vector2 wp = V3toV2(obj.Key) + V3toV2(player.forward) * 10;
+            if (Vector2.Angle(p, wp - V3toV2(player.position)) > objectAngleCheck || (Vector2.Distance(wp, V3toV2(player.position)) > 100 && int.Parse(obj.Value.name) < largeRocksStart))
             {
                 CheckIn(obj.Value);
                 usedObjects.Remove(obj.Key);
@@ -256,7 +268,7 @@ public class TerrainAssetManager : MonoBehaviour
                 TerrainAssetChunk curChunk = chunkQueue[index];
                 if (curChunk.objGood)
                 {
-                    RequestCheckout(curChunk.TerrainObjects);
+                    RequestCheckout(curChunk.TerrainObjects, curChunk.TerrainNormals);
                 }
 
                 TerrainGenerator.TerrainAssetChunks.TryGetValue((curChunk.Chunkx - 1) + ":" + (curChunk.Chunkz), out chunk);
@@ -314,18 +326,20 @@ public class TerrainAssetManager : MonoBehaviour
 #endif
     }
 
-    void RequestCheckout(Vector4[] objs)
+    void RequestCheckout(Vector4[] objs, Vector3[] norms)
     {
         bool dup = false;
+        int count = 0;
         foreach(var obj in objs)
         {
-            Vector3 pos = new Vector3(obj.x, obj.y-0.2f, obj.z);
+            Vector3 pos = new Vector3(obj.x, obj.y, obj.z);
             Vector2 pos2D = new Vector2(obj.x, obj.z);
+            Vector3 norm = norms[count];
 
             int type = (int)obj[3];
 
             Vector2 p1 = V3toV2(player.forward);
-            Vector2 worldPos = V3toV2(pos) + V3toV2(player.forward) * 5;
+            Vector2 worldPos = V3toV2(pos) + V3toV2(player.forward) * 10;
             if (Vector2.Angle(p1, worldPos - V3toV2(player.position)) < objectAngleCheck)
             {
                 if (!usedObjects.ContainsKey(pos) && !brokenObjects.ContainsKey(pos))
@@ -338,6 +352,15 @@ public class TerrainAssetManager : MonoBehaviour
                         if (instance != null)
                         {
                             instance.transform.position = pos;
+                            if (instance.tag != "Tree")
+                            {
+                                instance.transform.up = norm;
+                                instance.transform.position -= new Vector3(0, instance.tag == "LargeRock"? 0.5f: 0, 0);
+                            }
+                            else
+                            {
+                                instance.transform.position -= new Vector3(0, 0.2f, 0);
+                            }
                             usedObjects.Add(pos, instance);
                         }
                     }
@@ -348,6 +371,7 @@ public class TerrainAssetManager : MonoBehaviour
             {
                 dup = true;
             }
+            count++;
         }
 
         

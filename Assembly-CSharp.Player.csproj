@@ -60,6 +60,7 @@
     <Compile Include="Assets\Unity\CSharp\FastNoiseLite.cs" />
     <Compile Include="Assets\General Scripts\HealthUI.cs" />
     <Compile Include="Assets\AI\Models\Villager\VillagerInteract.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\EleCallback.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\ItemBoxInfo.cs" />
     <Compile Include="Assets\AI\Models\Villager\BeardRandom.cs" />
     <Compile Include="Assets\Buildings\BuildingManager.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\AI\InteractScript.cs" />
     <Compile Include="Assets\Buildings\MeshCombiner.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestUI.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\Elevator.cs" />
     <Compile Include="Assets\AI\Models\MyIKFootLocator.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\OtherInvenUI.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Item.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Assets\Buildings\BuildingUnifier.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingGenerator.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainGenerator.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\TerrainOnCollision.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Crafting.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingSettings.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestManager.cs" />
@@ -111,9 +114,6 @@
     <Compile Include="Assets\TerrainScripts\TerrainAssets\TerrainAssetManager.cs" />
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\TerrainOnCollision.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\Elevator.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\EleCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

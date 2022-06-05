@@ -7,6 +7,9 @@ TagManager:
   - Ladder
   - Skeleton
   - TerrainOn
+  - Undefined
+  - Tree
+  - LargeRock
   layers:
   - Default
   - TransparentFX

@@ -75,8 +75,11 @@ Shader "Custom/Triplanar"
             float3 blendAxes = abs(IN.worldNormal);
             blendAxes /= blendAxes.x + blendAxes.y + blendAxes.z;
             // Albedo comes from a texture tinted by color
-            float mossStrength = GetNoise(IN.worldPos, _MossScale) * _MossStrength;
 
+            float mossStrengthX = GetNoise(IN.worldPos.zy, _MossScale) * _MossStrength * blendAxes.x;
+            float mossStrengthY = GetNoise(IN.worldPos.xz, _MossScale) * _MossStrength * blendAxes.y;
+            float mossStrengthZ = GetNoise(IN.worldPos.xy, _MossScale) * _MossStrength * blendAxes.x;
+            float mossStrength = mossStrengthX + mossStrengthY + mossStrengthZ;
 
             float3 moss = triplanar(IN.worldPos / _MossTextureScale, blendAxes, _Moss);
 
