@@ -7,10 +7,14 @@ public class TerrainOnCollision : MonoBehaviour
     // Start is called before the first frame update
     GameObject terrain;
     GameObject terrainAssets;
+    GameObject light;
+    CaveControl caveControl;
     void Start()
     {
         terrain = GameObject.Find("TerrainGenerator");
         terrainAssets = GameObject.Find("TerrainAssetManager");
+        light = GameObject.Find("Sun");
+        caveControl = transform.GetComponentInParent<CaveControl>();
     }
 
 
@@ -18,8 +22,10 @@ public class TerrainOnCollision : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
+            light.SetActive(true);
             terrain.SetActive(true);
             terrainAssets.SetActive(true);
+            caveControl.CaveInactive();
         }
     }
 }

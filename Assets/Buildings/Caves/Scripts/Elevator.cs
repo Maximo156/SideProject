@@ -8,6 +8,8 @@ public class Elevator : MonoBehaviour
     GameObject terrain;
     GameObject terrainAssets;
     GameObject player;
+    GameObject light;
+    CaveControl caveControl;
     float start;
     float end;
     bool moving = false;
@@ -21,6 +23,8 @@ public class Elevator : MonoBehaviour
         terrain = GameObject.Find("TerrainGenerator");
         terrainAssets = GameObject.Find("TerrainAssetManager");
         player = GameObject.Find("Player");
+        light = GameObject.Find("Sun");
+        caveControl = transform.GetComponentInParent<CaveControl>();
     }
 
     //true = up
@@ -50,8 +54,10 @@ public class Elevator : MonoBehaviour
         if (!moving && col.gameObject.tag == "Player")
         {
             moving = true;
+            light.SetActive(false);
             terrain.SetActive(false);
             terrainAssets.SetActive(false);
+            caveControl.CaveActive();
             float pos = transform.position.y;
             StartCoroutine(Move(Mathf.Abs(start - pos) > Mathf.Abs(end - pos)));
         }
