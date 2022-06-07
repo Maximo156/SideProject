@@ -3597,10 +3597,10 @@ MonoBehaviour:
     - {fileID: 6442016921595014017, guid: 40937c59c348810408014ee5c0519b08, type: 3}
     - {fileID: 3019494336750988660, guid: 1334548b59e50d34dbcd0335580e3ba1, type: 3}
     Roofs:
-    - {fileID: 100002, guid: adf888a5fbb8d464194221d63f51fd13, type: 3}
-    - {fileID: 100002, guid: 8a9c3ce2f8d1f1243b1d24a30042b9b3, type: 3}
-    - {fileID: 100002, guid: 3ac29a2820fd760489c1f74381389614, type: 3}
-    - {fileID: 100002, guid: a818edceca6cf6a448b2474e1d64f0c2, type: 3}
+    - {fileID: 1485009395170195610, guid: 4c03963ebc3607c42ac963460d3a37fa, type: 3}
+    - {fileID: 4061168807445645635, guid: cd4c8f565b346fd42997c9d69d20c262, type: 3}
+    - {fileID: 4914648604064003898, guid: a413d543afe5a64478015fd74719ad06, type: 3}
+    - {fileID: 1478400571920260676, guid: 459cd41c2d274ce4890e7cc67709dded, type: 3}
     Fillers:
     - {fileID: 2366715672579534254, guid: cde493a333b888c4cbb1e6eb8339b5ea, type: 3}
     Ladder: {fileID: 4017918400749752957, guid: 53bc90dcd46f20b469aa821e635757a6, type: 3}
@@ -3617,9 +3617,9 @@ MonoBehaviour:
     - {fileID: 8566685503249514732, guid: ca8d8bc3633da1147bc8a4f99cd44f44, type: 3}
     - {fileID: 3019494336750988660, guid: 1334548b59e50d34dbcd0335580e3ba1, type: 3}
     Roofs:
-    - {fileID: 100002, guid: 89e7ad342438f4a4dbc1e96d6f4eb7af, type: 3}
-    - {fileID: 100002, guid: f3fda4a879700cb4e96af72dc7721e71, type: 3}
-    - {fileID: 100002, guid: ddd3651d7cb1daa429fafc4589693410, type: 3}
+    - {fileID: 4829880411645564227, guid: f4655313af1a5824ab1cad8fb36ad1d4, type: 3}
+    - {fileID: 8875099008791211911, guid: 557f175373f56be4fa9d352391d6237f, type: 3}
+    - {fileID: 6320190633724726063, guid: e48b8dda99e92ba4d88eef685c5bb565, type: 3}
     - {fileID: 7937797949824768507, guid: f9a5279b9ff5fb446800f761e4c467cb, type: 3}
     Fillers:
     - {fileID: 2366715672579534254, guid: cde493a333b888c4cbb1e6eb8339b5ea, type: 3}
