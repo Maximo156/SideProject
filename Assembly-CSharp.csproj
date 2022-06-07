@@ -62,6 +62,7 @@
     <Compile Include="Assets\Buildings\Caves\Scripts\CaveGenerator.cs" />
     <Compile Include="Assets\AI\Models\Villager\VillagerInteract.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\EleCallback.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\MarchingCubes.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\ItemBoxInfo.cs" />
     <Compile Include="Assets\AI\Models\Villager\BeardRandom.cs" />
     <Compile Include="Assets\Buildings\BuildingManager.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Assets\TerrainScripts\TerrainLODController.cs" />
     <Compile Include="Assets\TerrainScripts\HeightNoise.cs" />
     <Compile Include="Assets\AI\OtherAI.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\VoxelArray.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\MarchingTertahedron.cs" />
     <Compile Include="Assets\Player Scripts\Quests\HuntQuest.cs" />
     <Compile Include="Assets\AdvancedGrass\Spawner.cs" />
     <Compile Include="Assets\Player Scripts\Quests\Quest.cs" />
@@ -112,15 +115,13 @@
     <Compile Include="Assets\Buildings\Parts\scripts\ChestInteract.cs" />
     <Compile Include="Assets\TerrainScripts\ShaderHeightNoise.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\CaveTest.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\CaveControl.cs" />
     <Compile Include="Assets\Buildings\TownScripts\Building.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainAssets\TerrainAssetManager.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\Marching.cs" />
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\VoxelArray.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\MarchingTertahedron.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\Marching.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\MarchingCubes.cs" />
-    <Compile Include="Assets\Buildings\Caves\Scripts\CaveControl.cs" />
+    <Compile Include="Assets\AI\AIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

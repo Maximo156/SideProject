@@ -1882,6 +1882,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 522256158}
+  - component: {fileID: 522256159}
   m_Layer: 0
   m_Name: EntityParent
   m_TagString: Untagged
@@ -1903,6 +1904,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &522256159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522256157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87e05a3e7e924a44a2de16e053d8d03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1675055176}
+  turnOffDistance: 75
+  despawnDistance: 4000
 --- !u!224 &523544852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1201013080331474504, guid: 7c7752e8627acfa4fa9727c3ef454907, type: 3}
@@ -5743,7 +5759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d1f688677b43841be7f48db7ead051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAtStart: 0
+  moveAtStart: 1
   speed: 6
   jumpSpeed: 8
   gravity: 20

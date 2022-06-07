@@ -132,11 +132,11 @@ public class Chunk : MonoBehaviour
             mc = gameObject.AddComponent<MeshCollider>();
             mc.sharedMesh = medMesh;
         }
-        float max = float.MinValue;
         float min = float.MaxValue;
 
         //cullMesh(Chunkx * sideLen, Chunkx * sideLen + 10, Chunkz * sideLen, Chunkz * sideLen + 10);
         buildings.TryAddTown(Chunkx, Chunkz, sideLen);
+        gameObject.isStatic = true;
     }
 
     void addGrass()

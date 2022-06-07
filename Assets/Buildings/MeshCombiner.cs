@@ -9,6 +9,7 @@ public class MeshCombiner : MonoBehaviour
     public void Awake()
     {
         StartCoroutine(Combine());
+        
     }
 
 
@@ -124,6 +125,7 @@ public class MeshCombiner : MonoBehaviour
         {
             sp.Call();
         }*/
+        gameObject.isStatic = true;
         Destroy(gameObject.GetComponent<MeshCombiner>());
     }
 

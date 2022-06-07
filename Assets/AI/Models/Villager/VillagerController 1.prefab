@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 6464467341505803068}
   - component: {fileID: 6527255985325269013}
   - component: {fileID: 5977058397708785184}
-  - component: {fileID: 8633939142302397472}
   - component: {fileID: 5693234154590718002}
   - component: {fileID: 5603590441520235485}
   - component: {fileID: -925678526640742128}
@@ -175,20 +174,6 @@ MonoBehaviour:
   estRayTimer: 1
   requireTarget: 0
   target: {fileID: 0}
---- !u!114 &8633939142302397472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695006337196909368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df36d2c833ee0394499bd7c22473868a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeDistance: 100
-  despawnDistance: 4000
 --- !u!114 &5693234154590718002
 MonoBehaviour:
   m_ObjectHideFlags: 0
