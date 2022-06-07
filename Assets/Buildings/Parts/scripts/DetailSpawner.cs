@@ -12,7 +12,7 @@ public class DetailSpawner : MonoBehaviour
     [SerializeField] List<bool> canRotates = new List<bool>();
     [SerializeField] int maxChildren = 0;
     [SerializeField] float MinDist;
-    float WaitTime = 2;
+    float WaitTime = 4;
     Bounds bounds;
     float start;
     void Start()

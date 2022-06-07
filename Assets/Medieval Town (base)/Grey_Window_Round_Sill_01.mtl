@@ -1,14 +1,22 @@
-#
-## Alias OBJ Material File
-# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
-
-newmtl Light_Stone
-Ka 0.000000 0.000000 0.000000
-Kd 0.882353 0.886275 0.901961
-Ks 0.330000 0.330000 0.330000
+# Blender MTL File: 'Stone_Window_Sill.blend'
+# Material Count: 2
 
 newmtl Dark_Stone
-Ka 0.000000 0.000000 0.000000
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
 Kd 0.780392 0.784314 0.800000
 Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
 
+newmtl Light_Stone
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.882353 0.886275 0.901961
+Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2

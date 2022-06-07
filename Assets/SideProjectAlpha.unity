@@ -3631,7 +3631,7 @@ MonoBehaviour:
     Floor: {fileID: 6443259629793484921, guid: 7afad73e3c59ed342a4248e9ea0262cb, type: 3}
     Ceiling: {fileID: 7937797949824768507, guid: f9a5279b9ff5fb446800f761e4c467cb, type: 3}
     Walls:
-    - {fileID: 7193726904542140751, guid: f79f5a364ccc5ac4786e1761e51ae269, type: 3}
+    - {fileID: 768386192785938027, guid: d015707da8a16894099594f009352b1f, type: 3}
     - {fileID: 3840374206341946033, guid: 5552983791d9cdd4185a3395470a0acb, type: 3}
     - {fileID: 7673244066932245531, guid: c2b83bd2a51aeca4e80b2d9f9cb97ed1, type: 3}
     - {fileID: 3448724405156625622, guid: ef299f54b817ede4eb301d76ac967b4e, type: 3}
