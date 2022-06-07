@@ -19,6 +19,8 @@ public class DetailSpawner : MonoBehaviour
     {
         float start = Time.time;
         bounds = new Bounds(center, size);
+        GenChildren();
+        Destroy(gameObject.GetComponent<DetailSpawner>());
     }
 
     

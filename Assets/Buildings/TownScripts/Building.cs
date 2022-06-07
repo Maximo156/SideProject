@@ -264,7 +264,7 @@ public class Building : BuildingUnifier
 
     private void Combine()
     {
-        bldg.gameObject.AddComponent<MeshCombiner>();
+        bldg.gameObject.AddComponent<CountDown>();
     }
     private Transform placeNorthWall(Transform parent, GameObject wall, float offset = 0)
     {

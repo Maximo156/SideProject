@@ -20,7 +20,7 @@ public class AIManager : MonoBehaviour
                 float dist = Vector3.Distance(player.position, child.position);
                 if (dist < turnOffDistance) child.gameObject.SetActive(true);
                 else if (dist < despawnDistance) child.gameObject.SetActive(false);
-                else Destroy(child);
+                else Destroy(child.gameObject);
             }
             count = 0;
         }

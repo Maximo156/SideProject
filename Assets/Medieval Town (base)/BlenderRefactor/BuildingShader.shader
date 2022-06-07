@@ -110,6 +110,8 @@ Shader "Custom/BuildingShader"
                 
 
                 float2 n = uv;
+
+
                 if (n.x < 0.33) {
                     if (n.y < 0.33) {
                           o.Normal = (1 - pow(mossStrength, 0.5)) * triplanarNormal(IN.worldPos / _WoodScale, blendAxes, _WoodNormal) + pow(mossStrength, 0.5) * half3(0, 0, 1);
