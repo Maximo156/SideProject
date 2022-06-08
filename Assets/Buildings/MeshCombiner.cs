@@ -8,8 +8,7 @@ public class MeshCombiner : MonoBehaviour
 
     public void Awake()
     {
-        StartCoroutine(Combine());
-        
+        StartCoroutine(Combine()); 
     }
 
 
@@ -18,7 +17,7 @@ public class MeshCombiner : MonoBehaviour
         ArrayList materials = new ArrayList();
         ArrayList combineInstanceArrays = new ArrayList();
         MeshFilter[] meshFilters = gameObject.GetComponentsInChildren<MeshFilter>();
-
+        yield return null;
         int count = 0;
         foreach (MeshFilter meshFilter in meshFilters)
         {

@@ -11,8 +11,12 @@ public abstract class BuildingUnifier
     protected BuildingManager manager;
 
     protected Transform bldg;
+    protected Transform container;
+    protected Transform details;
 
     protected bool built = false;
+
+    protected int[,,] floors;
 
 
     public virtual bool isBuilding()
@@ -25,13 +29,66 @@ public abstract class BuildingUnifier
         return false;
     }
 
-    public abstract float DistFromPlayer(Vector3 pos);
-
-    public abstract bool SetActive(bool a);
-
-    public abstract void DestoryGameObject();
-
-    public abstract int Forget();
-
+    public virtual float DistFromPlayer(Vector3 playerPos)
+    {
+        return Vector3.Distance(playerPos, new Vector3(xPos, playerPos.y, yPos));
+    }
     public abstract void Build();
+
+
+    public virtual bool PlayerInBounds(Vector3 playerPos)
+    {
+        int buffer = 30;
+        Rect bounds = new Rect(xPos - buffer, yPos - buffer, 3 * floors.GetLength(1) + 2*buffer, 3 * floors.GetLength(1) + 2*buffer);
+        return bounds.Contains(new Vector2(playerPos.x, playerPos.z));
+    }
+    float combineStart;
+    public virtual void SetDetail(bool a)
+    {
+        if (built && Time.time - combineStart > 3)
+        {
+            details.gameObject.SetActive(a);
+        }
+    }
+
+    protected virtual void Combine()
+    {
+        container.gameObject.AddComponent<CountDown>();
+        combineStart = Time.time;
+    }
+
+
+    public virtual void DestoryGameObject()
+    {
+
+        if (built)
+        {
+            Object.Destroy(container.gameObject);
+        }
+        built = false;
+    }
+    public virtual int Forget()
+    {
+
+        if (built)
+        {
+            Object.Destroy(container.gameObject);
+        }
+
+        return seed;
+    }
+
+    public virtual bool SetActive(bool a)
+    {
+        bool wasBuilt = built;
+        if (a && !built)
+        {
+            Build();
+        }
+        if (built)
+        {
+            container.gameObject.SetActive(a);
+        }
+        return wasBuilt;
+    }
 }

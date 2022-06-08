@@ -100,6 +100,7 @@ public class BuildingManager : MonoBehaviour
     public float forgetDistance = 10000;
     public float manageDistance = 4000;
     public float renderDistance = 1000;
+    public float DetailDistance = 100;
     public float secondsBetweenUpdates = 1f;
     public Transform player;
 
@@ -128,6 +129,9 @@ public class BuildingManager : MonoBehaviour
             for(int i = 0; i<objects.Count; i++)
             {
                 float dist = objects[i].DistFromPlayer(player.position);
+
+                
+                objects[i].SetDetail(objects[i].PlayerInBounds(player.position));
                 if(dist < renderDistance)
                 {
                     if(!objects[i].SetActive(true))

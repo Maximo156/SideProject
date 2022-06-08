@@ -7,7 +7,7 @@ public class Dungeon : BuildingUnifier
 {
 
     DungeonParts parts;
-    int[,,] floors;
+    
     bool[] firstOfLevel;
     int levels;
     (int, int) doorPos;
@@ -43,11 +43,20 @@ public class Dungeon : BuildingUnifier
         this.seed = seed;
         this.manager = manager;
         this.parts = parts;
+
         bldg = new GameObject("Dungeon").transform;
-        bldg.gameObject.AddComponent<MeshRenderer>();
-        bldg.gameObject.AddComponent<MeshFilter>();
-        bldg.SetParent(manager.transform);
-        bldg.position = new Vector3(xPos, height, yPos);
+        details = new GameObject("Details").transform;
+        container = new GameObject("DungeonContainer").transform;
+        container.tag = "Container";
+
+        container.gameObject.AddComponent<MeshRenderer>();
+        container.gameObject.AddComponent<MeshFilter>();
+
+        bldg.SetParent(container);
+        details.SetParent(container);
+        container.SetParent(manager.transform);
+
+        container.position = new Vector3(xPos, height, yPos);
     }
 
     override
@@ -56,10 +65,17 @@ public class Dungeon : BuildingUnifier
         if (!built)
         {
             bldg = new GameObject("Dungeon").transform;
-            bldg.gameObject.AddComponent<MeshRenderer>();
-            bldg.gameObject.AddComponent<MeshFilter>();
-            bldg.SetParent(manager.transform);
-            bldg.position = new Vector3(xPos, height, yPos);
+            details = new GameObject("Details").transform;
+            container = new GameObject("Container").transform;
+
+            container.gameObject.AddComponent<MeshRenderer>();
+            container.gameObject.AddComponent<MeshFilter>();
+
+            bldg.SetParent(container);
+            details.SetParent(container);
+            container.SetParent(manager.transform);
+
+            container.position = new Vector3(xPos, height, yPos);
         }
 
         Random.seed = seed;
@@ -179,49 +195,12 @@ public class Dungeon : BuildingUnifier
         roof.SetParent(bldg);
         Combine();
     }
+
+
+    
     
 
-    private void Combine()
-    {
-        bldg.gameObject.AddComponent<CountDown>();
-    }
-    override
-    public bool SetActive(bool a)
-    {
-        bool wasBuild = built;
-        if (a && !built)
-        {
-            Build();
-        }
-        if (built)
-        {
-            bldg.gameObject.SetActive(a);
-        }
-        return wasBuild;
-    }
 
-    override
-    public void DestoryGameObject()
-    {
-        
-        if (built)
-        {
-            Destroy(bldg.gameObject);
-        }
-        built = false;
-    }
-
-    override
-    public int Forget()
-    {
-        
-        if (built)
-        {
-            Destroy(bldg.gameObject);
-        }
-        
-        return seed;
-    }
 
     private Transform placeNorthWall(Transform parent, GameObject wall, float offset = 0)
     {

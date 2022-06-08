@@ -69,7 +69,6 @@
     <Compile Include="Assets\Player Scripts\PlayerScript.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainAssets\TerrainAssetChunks.cs" />
     <Compile Include="Assets\Player Scripts\CameraEffects.cs" />
-    <Compile Include="Assets\Buildings\DungeonScripts\CountDown.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Inventory.cs" />
     <Compile Include="Assets\AI\Models\ProceduralAnimation.cs" />
     <Compile Include="Assets\Buildings\DeleteCollision.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
     <Compile Include="Assets\AI\AIManager.cs" />
+    <Compile Include="Assets\Buildings\TownScripts\CountDown.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

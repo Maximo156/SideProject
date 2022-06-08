@@ -9,10 +9,9 @@ public class Building : BuildingUnifier
     float[] sections;
     (int,int)[] sectionsDoors;
     int[,] sectionsLadders;
-    int[,,] floors;
     BuildingParts parts;
-    MeshRenderer mr;
-    MeshFilter mf;
+    //MeshRenderer mr;
+    //MeshFilter mf;
     
     bool ruin;
 
@@ -29,47 +28,8 @@ public class Building : BuildingUnifier
         this.sectionsDoors = new (int, int)[sections];
         this.sectionsLadders = new int[floors.GetLength(0), sections];
     }
-
-    override
-    public bool SetActive(bool a)
-    {
-        bool wasBuilt = built;
-        if(a && !built)
-        {
-            Build();
-        }
-        if (built)
-        {
-            bldg.gameObject.SetActive(a);
-        }
-        return wasBuilt;
-    }
-
-    override
-    public void DestoryGameObject()
-    {
-        if (built)
-        {
-            Destroy(bldg.gameObject);
-        }
-        built = false;
-    }
-
-    override
-    public int Forget()
-    {
-        if (built)
-        {
-            Destroy(bldg.gameObject);
-        }
-        return seed;
-    }
-
-    override
-    public float DistFromPlayer(Vector3 playerPos)
-    {
-        return Vector3.Distance(playerPos, new Vector3(xPos, playerPos.y, yPos));
-    }
+    float combineStart = 0;
+    
 
     public void Initialize(int x, int y, BuildingParts parts, int seed, BuildingManager manager, bool ruin = false)
     {
@@ -79,12 +39,20 @@ public class Building : BuildingUnifier
         this.seed = seed;
         this.ruin = ruin;
         this.manager = manager;
-
+        
         bldg = new GameObject("Town").transform;
-        mr = bldg.gameObject.AddComponent<MeshRenderer>();
-        mf = bldg.gameObject.AddComponent<MeshFilter>();
-        bldg.SetParent(manager.transform);
-        bldg.position = new Vector3(xPos, 0, yPos);
+        details = new GameObject("Details").transform;
+        container = new GameObject("TownContainer").transform;
+        container.tag = "Container";
+
+        container.gameObject.AddComponent<MeshRenderer>();
+        container.gameObject.AddComponent<MeshFilter>();
+
+        bldg.SetParent(container);
+        details.SetParent(container);
+        container.SetParent(manager.transform);
+
+        container.position = new Vector3(xPos, 0, yPos);
 
         CatSecs();
     }
@@ -95,10 +63,19 @@ public class Building : BuildingUnifier
         if (!built)
         {
             bldg = new GameObject("Town").transform;
-            mr = bldg.gameObject.AddComponent<MeshRenderer>();
-            mf = bldg.gameObject.AddComponent<MeshFilter>();
-            bldg.SetParent(manager.transform);
-            bldg.position = new Vector3(xPos, 0, yPos);
+            details = new GameObject("Details").transform;
+            container = new GameObject("TownContainer").transform;
+            container.tag = "Container";
+
+
+            container.gameObject.AddComponent<MeshRenderer>();
+            container.gameObject.AddComponent<MeshFilter>();
+
+            bldg.SetParent(container);
+            details.SetParent(container);
+            container.SetParent(manager.transform);
+
+            container.position = new Vector3(xPos, 0, yPos);
         }
 
         Random.seed = seed;
@@ -262,10 +239,6 @@ public class Building : BuildingUnifier
         Combine();
     }
 
-    private void Combine()
-    {
-        bldg.gameObject.AddComponent<CountDown>();
-    }
     private Transform placeNorthWall(Transform parent, GameObject wall, float offset = 0)
     {
         Transform w = Instantiate(wall.transform, parent.TransformPoint(-0.5f, 0.3f+offset, -3f), Quaternion.Euler(0, -180, 0));

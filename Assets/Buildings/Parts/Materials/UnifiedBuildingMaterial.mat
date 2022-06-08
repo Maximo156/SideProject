@@ -96,7 +96,7 @@ Material:
     - _SrcBlend: 1
     - _StoneScale: 1.11
     - _UVSec: 0
-    - _WoodScale: 1.24
+    - _WoodScale: 1.48
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
