@@ -86,6 +86,7 @@
     <Compile Include="Assets\Buildings\MeshCombiner.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestUI.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\Elevator.cs" />
+    <Compile Include="Assets\Buildings\TownScripts\CountDown.cs" />
     <Compile Include="Assets\AI\Models\MyIKFootLocator.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\OtherInvenUI.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Item.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\Buildings\TownScripts\BuildingGenerator.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainGenerator.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\TerrainOnCollision.cs" />
+    <Compile Include="Assets\AI\AIManager.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Crafting.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingSettings.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestManager.cs" />
@@ -120,8 +122,8 @@
     <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\Marching.cs" />
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
-    <Compile Include="Assets\AI\AIManager.cs" />
-    <Compile Include="Assets\Buildings\TownScripts\CountDown.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\CaveMine.cs" />
+    <Compile Include="Assets\Buildings\Caves\Scripts\Cave.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

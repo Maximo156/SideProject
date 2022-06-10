@@ -5,6 +5,15 @@ using MarchingCubesProject;
 
 public static class CaveGenerator
 {
+    public class GenInfo
+    {
+        public int[,,] intermediate;
+        public int scale;
+        public (int, int) xRange;
+        public (int, int) yRange;
+        public (int, int) zRange;
+    }
+
     static VoxelArray cave;
     static int[,,] intermediate;
     static int xMax;
@@ -13,7 +22,10 @@ public static class CaveGenerator
     static int maxDepth = 40;
     static int scale = 3;
     static float branchChance = 0.1f;
-    public static VoxelArray GenerateCave(int x, int y, int z, out int[,,] o)
+    static (int, int) xRange;
+    static (int, int) yRange;
+    static (int, int) zRange;
+    public static VoxelArray GenerateCave(int x, int y, int z,  out GenInfo o, int maxDepth = 40)
     {
         if (scale % 2 == 0) scale++;
         cave = new VoxelArray(x*scale, y*scale, z*scale);
@@ -22,25 +34,45 @@ public static class CaveGenerator
         yMax = y - 2;
         zMax = z - 2;
 
+        xRange = (x, 0);
+        yRange = (y, 0);
+        zRange = (z, 0);
+
+        CaveGenerator.maxDepth = maxDepth;
 
         Step(x-1, y - 2, z / 2);
 
         Scale();
         Smooth();
         Smooth();
-        o = intermediate;
+        o = new GenInfo { intermediate = intermediate, 
+            scale = scale,
+            xRange = xRange,
+            yRange = yRange,
+            zRange = zRange };
         return cave;
     }
 
     private static void Step(int x, int y, int z, int depth = 0, bool canBranch = true)
     {
         if (depth > maxDepth) return;
+
+        xRange.Item1 = Mathf.Min(xRange.Item1, x);
+        xRange.Item2 = Mathf.Max(xRange.Item2, x);
+
+        yRange.Item1 = Mathf.Min(yRange.Item1, y);
+        yRange.Item2 = Mathf.Max(yRange.Item2, y);
+
+        zRange.Item1 = Mathf.Min(zRange.Item1, z);
+        zRange.Item2 = Mathf.Max(zRange.Item2, z);
+
         intermediate[x, y, z] = 1;
         int xNext;
         int yNext;
         int zNext;
         int count = 0;
         bool notValidChoice;
+        bool valid;
         do
         {
             yNext = y;
@@ -65,8 +97,15 @@ public static class CaveGenerator
                 yNext = y + Random.Range(y <= 1 ? 0 : -1, y >= yMax ? 1 : 2);
             }
             count++;
-           notValidChoice = intermediate[xNext, yNext, zNext] == 1 || intermediate[xNext, yNext + 1, zNext] == 1 || intermediate[xNext, yNext - 1, zNext] == 1 || yNext - 2 < 0 ? false : intermediate[xNext, yNext - 2, zNext] == 1 || yNext + 2 > yMax + 1 ? false : intermediate[xNext, yNext + 2, zNext] == 1;
-        } while (count < 20 && (intermediate[xNext, yNext, zNext] == 1 || intermediate[xNext, yNext+1, zNext] == 1 || intermediate[xNext, yNext-1, zNext] == 1));
+            notValidChoice = intermediate[xNext, yNext, zNext] == 1 || intermediate[xNext, yNext + 1, zNext] == 1 || intermediate[xNext, yNext - 1, zNext] == 1 || yNext - 2 < 0 ? false : intermediate[xNext, yNext - 2, zNext] == 1 || yNext + 2 > yMax + 1 ? false : intermediate[xNext, yNext + 2, zNext] == 1;
+            
+            valid = intermediate[xNext, yNext, zNext] == 0;
+            valid &= intermediate[xNext, yNext + 1, zNext] == 0;
+            valid &= intermediate[xNext, yNext - 1, zNext] == 0;
+            valid &= yNext - 2 < 0 ? true : intermediate[xNext, yNext - 2, zNext] == 0;
+            valid &= yNext + 2 > yMax + 1 ? true : intermediate[xNext, yNext + 2, zNext] == 0;
+
+        } while (count < 20 && !valid);
         if (count == 20) return;
         Step(xNext, yNext, zNext, ++depth, canBranch);
         if(canBranch && Random.Range(0f, 1f) < branchChance)

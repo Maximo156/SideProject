@@ -10,6 +10,7 @@ TagManager:
   - Undefined
   - Tree
   - LargeRock
+  - Container
   layers:
   - Default
   - TransparentFX

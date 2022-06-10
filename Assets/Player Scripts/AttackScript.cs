@@ -45,15 +45,13 @@ public class AttackScript : MonoBehaviour
             {
                 Attack();
             }
-
-           
         }
     }
 
     public void Attack()
     {
         Debug.DrawRay(transform.position, transform.forward*currentWeapon.range);
-        Physics.Raycast(transform.position, transform.forward*currentWeapon.range, out RaycastHit info);
+        Physics.Raycast(transform.position, transform.forward, out RaycastHit info, currentWeapon.range);
 
         if (info.transform != null && info.distance < currentWeapon.range)
         {
@@ -65,6 +63,13 @@ public class AttackScript : MonoBehaviour
                 {
                     QuestManager.PushUpdate(new HuntQuestUpdate(hitObject.tag));
                 }
+            }
+
+
+            CaveMine minable = info.transform.gameObject.GetComponent<CaveMine>();
+            if (minable != null)
+            {
+                minable.Mine(info.point);
             }
         }
     
