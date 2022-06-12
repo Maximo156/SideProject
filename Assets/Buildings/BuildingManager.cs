@@ -94,9 +94,12 @@ public class BuildingManager : MonoBehaviour
     public BuildingParts RuinParts;
     public DungeonParts DungeonParts;
 
+    public GameObject CaveReference;
+
     public float chunkTownChance = 0.1f;
     public float ruinChance = 0.1f;
     public float chunkTowerChance = 0.1f;
+    public float chunkCaveChance = 0.1f;
     public float forgetDistance = 10000;
     public float manageDistance = 4000;
     public float renderDistance = 1000;
@@ -134,8 +137,7 @@ public class BuildingManager : MonoBehaviour
                 objects[i].SetDetail(objects[i].PlayerInBounds(player.position));
                 if(dist < renderDistance)
                 {
-                    if(!objects[i].SetActive(true))
-                        return;
+                    objects[i].SetActive(true);
                 } 
                 else if(dist < manageDistance)
                 {
@@ -159,7 +161,7 @@ public class BuildingManager : MonoBehaviour
 
     public void TryAddTown(int chunkX, int chunkY, float chunkSideLength)
     {
-        int chunkSeed = (new Vector2(hash(chunkX), hash(chunkY))).GetHashCode();
+        int chunkSeed = new Vector2(hash(chunkX), hash(chunkY)).GetHashCode();
         float height = HeightNoise.getHeight(new Vector3(chunkX, 0, chunkY) * chunkSideLength)[0];
         if (height < 90) return;
 
@@ -182,6 +184,17 @@ public class BuildingManager : MonoBehaviour
             if (hashes.Add(chunkSeed) && biome > -0.2)
             {
                 AddTower(chunkX, chunkY, chunkSideLength, chunkSeed);
+                return;
+            }
+        }
+
+        spawn = Random.Range(0f, 1f);
+        if (spawn < chunkCaveChance)
+        {
+            float biome = HeightNoise.getBoimeData(chunkX * chunkSideLength, chunkY * chunkSideLength);
+            if (hashes.Add(chunkSeed) && biome > -0.2)
+            {
+                AddCave(chunkX, chunkY, chunkSideLength);
                 return;
             }
         }
@@ -211,14 +224,19 @@ public class BuildingManager : MonoBehaviour
         int stories = Random.Range(2, 15);
         int baseSize = Random.Range(5, 10);
 
-        //print(stories);
-        //print(baseSize);
-        //print((int)(chunkX * chunkSideLength) + " " + (int)(chunkY * chunkSideLength));
-
         Dungeon dungeon = DungeonGenerator.Generate(baseSize, baseSize, (int)Mathf.Ceil(baseSize / 3), 3, chunkSeed, (int)(chunkX * chunkSideLength), (int)(chunkY * chunkSideLength), stories);
 
         dungeon.Initialize((int)(chunkX * chunkSideLength), (int)(chunkY * chunkSideLength), DungeonParts, chunkSeed, this);
 
         objects.Add(dungeon);
     }
+
+    private void AddCave(int chunkX, int chunkY, float chunkSideLength)
+    {
+        Vector3 pos = new Vector3((int)(chunkX * chunkSideLength) + 0.5f*chunkSideLength, 0, (int)(chunkY * chunkSideLength + 0.5f*chunkSideLength));
+        pos.y = HeightNoise.getHeight(pos)[0]+0.2f;
+        CaveWrapper cave = new CaveWrapper(transform, pos, CaveReference);
+        objects.Add(cave);
+    }
+
 }

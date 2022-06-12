@@ -2,40 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MarchingCubesProject;
+using System.Threading;
 
 public class CaveControl : MonoBehaviour
 {
     public List<GameObject> Objects;
+    public List<float> Chances;
     public Material material;
     GameObject cave;
+    BoxCollider post;
     VoxelArray caveVox;
     CaveGenerator.GenInfo info;
 
+    public void Start()
+    {
+        //post = gameObject.GetComponent<BoxCollider>();
+        //post.enabled = false;
+    }
 
     public void CaveActive()
     {
+
         if (cave == null)
         {
             genCave();
             MakeCave();
             StartCoroutine(Spawn());
+
         }
-        else cave.SetActive(true);
+        else
+        {
+            cave.SetActive(true);
+            //post.enabled = true;
+        }
     }
 
     public void CaveInactive()
     {
-        if (cave != null) cave.SetActive(false);
+        if (cave != null)
+        {
+            //post.enabled = false;
+            cave.SetActive(false);
+        }
     }
 
     public void genCave()
     {
         Random.seed = transform.position.GetHashCode();
-        caveVox = CaveGenerator.GenerateCave(40, 40, 40, out info, 70);
+        caveVox = CaveGenerator.GenerateCave(30, 30, 30, out info, 70);
     }
 
-
     private void MakeCave()
+    {
+        StartCoroutine(MakeCaveRoutine());
+    }
+
+    bool meshBaked = false;
+    private IEnumerator MakeCaveRoutine()
     {
         Marching marching = new MarchingCubes();
 
@@ -44,12 +67,29 @@ public class CaveControl : MonoBehaviour
         List<int> indices = new List<int>();
 
         marching.Surface = 0.2f;
+        yield return StartCoroutine(marching.Generate(caveVox.Voxels, verts, indices));
 
-        marching.Generate(caveVox.Voxels, verts, indices);
+        CreateMesh32(verts, normals, indices, new Vector3(-98.03f, -105.91f, -41.89f));
+        yield return null;
 
-        CreateMesh32(verts, normals, indices, new Vector3(-68.25f, -75.37f, -26.9f));
-
+        startMechColliderThread(cave.GetComponent<MeshFilter>().mesh.GetInstanceID());
+        yield return new WaitWhile(() => !meshBaked);
         cave.AddComponent<MeshCollider>();
+    }
+
+    private void startMechColliderThread(int id)
+    {
+        ThreadStart threadStart = delegate
+        {
+            AddMeshCollider(id);
+        };
+        new Thread(threadStart).Start();
+    }
+
+    private void AddMeshCollider(int id)
+    {
+        Physics.BakeMesh(id, false);
+        meshBaked = true;
     }
 
     private void CreateMesh32(List<Vector3> verts, List<Vector3> normals, List<int> indices, Vector3 position)
@@ -115,6 +155,11 @@ public class CaveControl : MonoBehaviour
 
     private IEnumerator Spawn()
     {
+        while (true)
+        {
+            if (cave == null || cave.GetComponent<MeshCollider>() == null) yield return null;
+            else break;
+        }
         for(int i = info.xRange.Item1; i<info.xRange.Item2; i++)
         {
             for (int k = info.yRange.Item1; k < info.yRange.Item2; k++)
@@ -132,7 +177,15 @@ public class CaveControl : MonoBehaviour
                             int numberOfCollidersFound = Physics.OverlapBoxNonAlloc(hitInfo.point, overlapTestBoxScale, collidersInsideOverlapBox);
                             if (numberOfCollidersFound < 2)
                             {
-                                Transform prim = Instantiate(Objects[Random.Range(0, Objects.Count)]).transform;
+                                float c = Random.Range(0f, 1f);
+                                float t = Chances[0];
+                                int index = 0;
+                                while (t < c)
+                                {
+                                    index++;
+                                    t += Chances[Mathf.Min(Chances.Count-1, index)];
+                                }
+                                Transform prim = Instantiate(Objects[Mathf.Min(Chances.Count - 1, index)]).transform;
                                 
                                 prim.position = hitInfo.point + hitInfo.normal * 0.2f;
                                 prim.up = hitInfo.normal;
@@ -144,5 +197,6 @@ public class CaveControl : MonoBehaviour
                 }
             }
         }
+        yield break;
     }
 }

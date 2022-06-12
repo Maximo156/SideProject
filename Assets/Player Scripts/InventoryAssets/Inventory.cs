@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
         AddItem(new Item(ItemType.Axe, 1));
         //AddItem(new Item(ItemType.Sword, 1));
         AddItem(new Item(ItemType.Hammer, 1));
-
+        AddItem(new Item(ItemType.Torch, 1));
     }
 
     void FixedUpdate()

@@ -45,7 +45,7 @@ public abstract class BuildingUnifier
     float combineStart;
     public virtual void SetDetail(bool a)
     {
-        if (built && Time.time - combineStart > 3)
+        if (details != null && built && Time.time - combineStart > 3)
         {
             details.gameObject.SetActive(a);
         }
@@ -78,9 +78,8 @@ public abstract class BuildingUnifier
         return seed;
     }
 
-    public virtual bool SetActive(bool a)
+    public virtual void SetActive(bool a)
     {
-        bool wasBuilt = built;
         if (a && !built)
         {
             Build();
@@ -89,6 +88,5 @@ public abstract class BuildingUnifier
         {
             container.gameObject.SetActive(a);
         }
-        return wasBuilt;
     }
 }

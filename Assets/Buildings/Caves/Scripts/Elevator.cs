@@ -53,13 +53,17 @@ public class Elevator : MonoBehaviour
     {
         if (!moving && col.gameObject.tag == "Player")
         {
+
             moving = true;
             light.SetActive(false);
             terrain.SetActive(false);
             terrainAssets.SetActive(false);
+
             caveControl.CaveActive();
+
             float pos = transform.position.y;
             StartCoroutine(Move(Mathf.Abs(start - pos) > Mathf.Abs(end - pos)));
+           
         }
     }
 

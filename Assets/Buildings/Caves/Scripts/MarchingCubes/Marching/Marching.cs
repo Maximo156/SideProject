@@ -40,7 +40,7 @@ namespace MarchingCubesProject
         /// <param name="voxels"></param>
         /// <param name="verts"></param>
         /// <param name="indices"></param>
-        public virtual void Generate(float[,,] voxels, IList<Vector3> verts, IList<int> indices)
+        public virtual IEnumerator Generate(float[,,] voxels, IList<Vector3> verts, IList<int> indices)
         {
 
             int width = voxels.GetLength(0);
@@ -69,10 +69,12 @@ namespace MarchingCubesProject
 
                         //Perform algorithm
                         March(x, y, z, Cube, verts, indices);
+                        
                     }
                 }
+                yield return null;
             }
-
+            yield break;
         }
 
         /// <summary>
@@ -111,8 +113,8 @@ namespace MarchingCubesProject
                         March(x, y, z, Cube, verts, indices);
                     }
                 }
+                
             }
-
         }
 
         /// <summary>

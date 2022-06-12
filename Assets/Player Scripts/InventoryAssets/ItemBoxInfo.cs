@@ -13,7 +13,6 @@ public class ItemBoxInfo : MonoBehaviour
         items.Add(new Item(i.type, i.count));
         time = Time.time;
         rigid = gameObject.GetComponent<Rigidbody>();
-        rigid.isKinematic = false;
     }
 
     private int counter = 0;
@@ -21,7 +20,7 @@ public class ItemBoxInfo : MonoBehaviour
     {
         if(rigid != null)
         {
-            if (counter < 1) counter++;
+            if (counter < 120) counter++;
             else
             {
                 rigid.isKinematic = true;

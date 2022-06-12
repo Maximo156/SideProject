@@ -7,12 +7,14 @@ public class EquipmentHandler : MonoBehaviour
     GameObject sword;
     GameObject axe;
     GameObject hammer;
+    GameObject Torch;
     // Start is called before the first frame update
     void Start()
     {
         sword = transform.Find("Sword").gameObject;
         axe = transform.Find("Axe").gameObject;
         hammer = transform.Find("Hammer").gameObject;
+        Torch = transform.Find("Torch").gameObject;
         ClearChildren();
     }
 
@@ -34,6 +36,10 @@ public class EquipmentHandler : MonoBehaviour
         } else if(info.type == WeaponType.Hammer)
         {
             hammer.SetActive(true);
+        }
+        else if (info.type == WeaponType.Torch)
+        {
+            Torch.SetActive(true);
         }
     }
 

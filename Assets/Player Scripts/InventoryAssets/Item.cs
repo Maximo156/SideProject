@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,21 +9,29 @@ public enum ItemType
     Rock,
     Axe,
     Sword,
-    Hammer
+    Hammer,
+    IronOre,
+    CopperOre,
+    GoldOre,
+    Emerald,
+    Ruby,
+    Torch,
+    Coal,
 }
-
+[Serializable]
 public class Item 
 {
     public static List<(Item, List<Item>)> Recipies = new List<(Item, List<Item>)>
     {
         {(new Item(ItemType.Wood, 1),  new List<Item>(){new Item(ItemType.Stick, 10) }) },
+        {(new Item(ItemType.Torch, 1),  new List<Item>(){new Item(ItemType.Wood, 1), new Item(ItemType.Coal, 1) }) },
         {(new Item(ItemType.Sword, 1),  new List<Item>(){new Item(ItemType.Wood, 1), new Item(ItemType.Stick, 2), new Item(ItemType.Rock, 3) }) },
         {(new Item(ItemType.Axe, 1),  new List<Item>(){new Item(ItemType.Stick, 3), new Item(ItemType.Rock, 3) }) },
     };
     public static void SpawnItem(Item item, Vector3 loc)
     {
-        loc.y = HeightNoise.getHeight(loc)[0] + 0.1f;
         GameObject itembox = GameObject.Instantiate( Resources.Load<GameObject>("ItemBox"));
+        itembox.GetComponent<Rigidbody>().isKinematic = false;
         itembox.transform.position = loc;
         itembox.GetComponent<ItemBoxInfo>().SetItem(item);
     }
@@ -34,6 +42,13 @@ public class Item
         {ItemType.Axe, 1 },
         {ItemType.Sword, 1 },
         {ItemType.Hammer, 1 },
+        {ItemType.Torch, 1 },
+        {ItemType.IronOre, 99 },
+        {ItemType.CopperOre, 99 },
+        {ItemType.Coal, 99 },
+        {ItemType.GoldOre, 99 },
+        {ItemType.Emerald, 50 },
+        {ItemType.Ruby, 50 },
     };
 
     public static Dictionary<ItemType, Sprite> ItemSprites = new Dictionary<ItemType, Sprite>(){
@@ -43,21 +58,13 @@ public class Item
         {ItemType.Axe, Resources.Load<Sprite>("Axe") },
         {ItemType.Sword, Resources.Load<Sprite>("Sword") },
         {ItemType.Hammer, Resources.Load<Sprite>("Hammer") },
-    };
-
-    public static Dictionary<string, List<Item>> DropTables = new Dictionary<string, List<Item>>()
-    {
-        {"Rock_1",  new List<Item>(){new Item(ItemType.Rock, 2) }   },
-        {"Rock_2",  new List<Item>(){new Item(ItemType.Rock, 4) }   },
-        {"Rock_3",  new List<Item>(){new Item(ItemType.Rock, 4) }   },
-        {"Tree",  new List<Item>(){new Item(ItemType.Wood, 3), new Item(ItemType.Stick, 10) }   },
-        {"Bush",  new List<Item>(){new Item(ItemType.Stick, 10) }   },
-        {"Skeleton",  new List<Item>(){new Item(ItemType.Sword, 1) }   },
-    };
-
-    public static Dictionary<string, List<float>> DropRates = new Dictionary<string, List<float>>()
-    {
-        {"Skeleton",  new List<float>(){0.5f }   },
+        {ItemType.IronOre, Resources.Load<Sprite>("IronOre") },
+        {ItemType.CopperOre, Resources.Load<Sprite>("CopperOre") },
+        {ItemType.GoldOre, Resources.Load<Sprite>("GoldOre") },
+        {ItemType.Emerald, Resources.Load<Sprite>("Emerald") },
+        {ItemType.Ruby, Resources.Load<Sprite>("Ruby") },
+        {ItemType.Torch, Resources.Load<Sprite>("Torch") },
+        {ItemType.Coal, Resources.Load<Sprite>("Coal") },
     };
 
     public ItemType type;
@@ -71,7 +78,7 @@ public class Item
 
     public bool Holdable()
     {
-        if (type == ItemType.Axe || type == ItemType.Sword || type == ItemType.Hammer) return true;
+        if (type == ItemType.Axe || type == ItemType.Sword || type == ItemType.Hammer || type == ItemType.Torch) return true;
         return false;
     }
 

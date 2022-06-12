@@ -1873,6 +1873,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae1548c741d4c54d8e91dadb12553d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropables:
+  - type: 4
+    count: 1
+  chances:
+  - 0.5
   maxHealth: 10
 --- !u!114 &957936242
 MonoBehaviour:

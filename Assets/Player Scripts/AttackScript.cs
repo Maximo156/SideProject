@@ -8,6 +8,7 @@ public enum WeaponType
     Sword,
     Axe,
     Hammer,
+    Torch,
     Fist
 }
 public class AttackInfo
@@ -25,6 +26,7 @@ public class AttackScript : MonoBehaviour
     [SerializeField] Sprite empty;
     private bool go = true;
     private static AttackInfo fist = new AttackInfo { baseDamage = 2, type = WeaponType.Fist, multiplier = 1, range = 1.25f };
+    private static AttackInfo torch = new AttackInfo { baseDamage = 2, type = WeaponType.Torch, multiplier = 1, range = 1.25f };
     private static AttackInfo sword = new AttackInfo { baseDamage = 4, type = WeaponType.Sword, multiplier = 1, range = 2f };
     private static AttackInfo axe = new AttackInfo { baseDamage = 3, type = WeaponType.Axe, multiplier = 1, range = 1.75f};
     private static AttackInfo hammer = new AttackInfo { baseDamage = 3, type = WeaponType.Hammer, multiplier = 1, range = 1.75f};
@@ -97,6 +99,11 @@ public class AttackScript : MonoBehaviour
         {
             ItemSlot.sprite = Item.ItemSprites[i.type];
             currentWeapon = hammer;
+        }
+        else if (i.type == ItemType.Torch)
+        {
+            ItemSlot.sprite = Item.ItemSprites[i.type];
+            currentWeapon = torch;
         }
         else
         {

@@ -6,7 +6,7 @@ public class DamageTerrain : HealthScript
 {
     private void Start()
     {
-        base.maxHealth = 1;
+        maxHealth = 1;
         health = maxHealth;
     }
     
