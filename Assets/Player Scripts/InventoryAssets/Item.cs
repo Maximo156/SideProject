@@ -42,7 +42,7 @@ public class Item
         {ItemType.Axe, 1 },
         {ItemType.Sword, 1 },
         {ItemType.Hammer, 1 },
-        {ItemType.Torch, 1 },
+        {ItemType.Torch, 50},
         {ItemType.IronOre, 99 },
         {ItemType.CopperOre, 99 },
         {ItemType.Coal, 99 },
@@ -67,6 +67,11 @@ public class Item
         {ItemType.Coal, Resources.Load<Sprite>("Coal") },
     };
 
+    public static Dictionary<ItemType, GameObject> PlacableModels = new Dictionary<ItemType, GameObject>()
+    {
+        {ItemType.Torch, Resources.Load<GameObject>("Tools/Torch") },
+    };
+
     public ItemType type;
     public int count;
 
@@ -80,6 +85,11 @@ public class Item
     {
         if (type == ItemType.Axe || type == ItemType.Sword || type == ItemType.Hammer || type == ItemType.Torch) return true;
         return false;
+    }
+
+    public bool Placable()
+    {
+        return type == ItemType.Torch;
     }
 
     public Item Dup()

@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField] private Canvas ParentCanvas;
-    [SerializeField] private Canvas invUI;
-    [SerializeField] private Canvas headsupUI;
+    [SerializeField] private GameObject invUI;
+    [SerializeField] private GameObject headsupUI;
     [SerializeField] private GameObject craftingPanel;
     [SerializeField] private GameObject questPanel;
     [SerializeField] private GameObject InteractivePanel;
@@ -16,6 +16,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private UnityEngine.EventSystems.EventSystem eventSystem;
 
     Transform playerTrans;
+    Transform cameraTrans;
     private bool overSelf = false;
     private Inventory inv;
     private ladderScript1 ladder;
@@ -23,6 +24,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     private AttackScript attack;
     private bool menuOn = false;
     private InteractScript currentInteraction = null;
+    private Item inHand;
     // Start is called before the first frame update
     private List<GameObject> slots = new List<GameObject>();
     void Start()
@@ -33,7 +35,8 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             slots[slots.Count - 1].name = "$"+i;
         }
 
-        playerTrans = GameObject.Find("Player").transform;
+        playerTrans = Player.transform;
+        cameraTrans = Camera.main.transform;
         ladder = playerTrans.GetComponent<ladderScript1>();
         player = playerTrans.GetComponent<PlayerScript>();
         attack = playerTrans.GetChild(1).GetComponent<AttackScript>();
@@ -42,7 +45,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         attack.ToggleGo(!menuOn);
         try
         {
-            invUI.enabled = menuOn;
+            invUI.transform.localScale = new Vector3(1, 1, 1) * (menuOn ? 1 : 0);
         }
         catch (UnassignedReferenceException e) { print(e); }
         craftingPanel.SetActive(false);
@@ -64,6 +67,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         }
         if (Input.GetKeyDown("e"))
         {
+            if(currentInteraction != null) currentInteraction.Close();
             OpenInventory(null);
         }
 
@@ -126,24 +130,40 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 
     public void Interact()
     {
-        Physics.Raycast(Player.transform.position, Player.transform.forward * 2, out RaycastHit info);
-
-        if (info.transform != null && info.distance < 2)
+        Physics.Raycast(cameraTrans.position, cameraTrans.forward, out RaycastHit info, 3);
+        if (info.transform != null)
         {
             InteractScript interactObject = info.transform.gameObject.GetComponent<InteractScript>();
             if (interactObject != null)
             {
-
                 OtherAI AI = info.transform.gameObject.GetComponent<OtherAI>();
                 if(AI != null)
                 {
                     AI.interacting = true;
                 }
-                interactObject.Interactive();
-                ladder.ToggleGo(false);
-                player.ToggleGo(false);
-                attack.ToggleGo(false);
-                Cursor.lockState = CursorLockMode.None;
+                if (interactObject.Interactive())
+                {
+                    ladder.ToggleGo(false);
+                    player.ToggleGo(false);
+                    attack.ToggleGo(false);
+                    Cursor.lockState = CursorLockMode.None;
+                }
+            }
+            else if(info.transform.gameObject.GetComponent<MeshCollider>() != null)
+            {
+                if (inHand != null && inHand.Placable())
+                {
+                    Vector3 dir = info.normal;
+                    dir.y = 0;
+                    dir = Vector3.Normalize(dir);
+                    GameObject t = Instantiate(Item.PlacableModels[inHand.type], info.point, Quaternion.identity, info.transform );
+                    t.transform.forward = dir;
+                    if((inHand.count -= 1) < 1)
+                    {
+                        inHand = null;
+                    }
+                    SetAttack(inHand);
+                }
             }
         }
     }
@@ -184,10 +204,28 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
         {
             List<Item> itemList = inv.GetItems();
             int index = int.Parse(name.Replace("$", " ").Trim());
-            if (index >= itemList.Count) return;
+            if (index >= itemList.Count)
+            {
+                if (inHand != null) itemList.Add(inHand);
+                inHand = null;
+                SetAttack(inHand);
+                UpdateSlots(itemList);
+            }
             if (currentInteraction == null)
             {
-                SetAttack(itemList[index]);
+                
+                if(inHand != null) itemList.Add(inHand);
+                if (itemList[index].Holdable())
+                {
+                    inHand = itemList[index];
+                    itemList.RemoveAt(index);
+                }
+                else
+                {
+                    inHand = null;
+                }
+                SetAttack(inHand);
+                UpdateSlots(itemList);
             }
             else
             {
@@ -230,8 +268,8 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 
         try
         {
-            invUI.enabled = menuOn;
-            headsupUI.enabled = !menuOn;
+            invUI.transform.localScale = new Vector3(1, 1, 1) * (menuOn ? 1 : 0);
+            headsupUI.SetActive(!menuOn);
         }
         catch (UnassignedReferenceException e) { }
         if (!menuOn)

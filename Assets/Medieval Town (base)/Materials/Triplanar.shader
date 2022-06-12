@@ -78,7 +78,7 @@ Shader "Custom/Triplanar"
 
             float mossStrengthX = GetNoise(IN.worldPos.zy, _MossScale) * _MossStrength * blendAxes.x;
             float mossStrengthY = GetNoise(IN.worldPos.xz, _MossScale) * _MossStrength * blendAxes.y;
-            float mossStrengthZ = GetNoise(IN.worldPos.xy, _MossScale) * _MossStrength * blendAxes.x;
+            float mossStrengthZ = GetNoise(IN.worldPos.xy, _MossScale) * _MossStrength * blendAxes.z;
             float mossStrength = mossStrengthX + mossStrengthY + mossStrengthZ;
 
             float3 moss = triplanar(IN.worldPos / _MossTextureScale, blendAxes, _Moss);

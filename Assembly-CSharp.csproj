@@ -113,19 +113,24 @@
     <Compile Include="Assets\Player Scripts\InventoryAssets\Crafting.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingSettings.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\Cave.cs" />
+    <Compile Include="Assets\Buildings\Caves\CaveWrapper.cs" />
     <Compile Include="Assets\Player Scripts\Quests\QuestManager.cs" />
     <Compile Include="Assets\AI\BaseAI.cs" />
     <Compile Include="Assets\Buildings\Parts\scripts\ChestInteract.cs" />
     <Compile Include="Assets\TerrainScripts\ShaderHeightNoise.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\CaveTest.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\CaveControl.cs" />
+    <Compile Include="Assets\Buildings\Caves\Rocks\Scripts\RockDamage.cs" />
     <Compile Include="Assets\Buildings\TownScripts\Building.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainAssets\TerrainAssetManager.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\Marching.cs" />
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
-    <Compile Include="Assets\Buildings\Caves\Rocks\Final\RockDamage.cs" />
-    <Compile Include="Assets\Buildings\Caves\CaveWrapper.cs" />
+    <Compile Include="Assets\Buildings\Caves\Rocks\Scripts\DisplayCost.cs" />
+    <Compile Include="Assets\Buildings\CostInfo.cs" />
+    <Compile Include="Assets\Buildings\Caves\Rocks\Scripts\DrillableInteract.cs" />
+    <Compile Include="Assets\Buildings\ConsumeProduce.cs" />
+    <Compile Include="Assets\Buildings\Caves\Rocks\Scripts\DrillAnimations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

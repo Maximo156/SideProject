@@ -23,6 +23,7 @@ public class AttackScript : MonoBehaviour
 {
     [SerializeField] EquipmentHandler equipment;
     [SerializeField] Image ItemSlot;
+    [SerializeField] Text ItemCount;
     [SerializeField] Sprite empty;
     private bool go = true;
     private static AttackInfo fist = new AttackInfo { baseDamage = 2, type = WeaponType.Fist, multiplier = 1, range = 1.25f };
@@ -36,6 +37,7 @@ public class AttackScript : MonoBehaviour
     void Start()
     {
         ItemSlot.sprite = empty;
+        ItemCount.text = "";
     }
 
     // Update is called once per frame
@@ -84,32 +86,43 @@ public class AttackScript : MonoBehaviour
 
     public void SetAttack(Item i)
     {
-
-        if(i.type == ItemType.Sword) 
+        if(i == null)
         {
+            ItemSlot.sprite = empty;
+            ItemCount.text = "";
+            currentWeapon = fist;
+        }
+        else if(i.type == ItemType.Sword) 
+        {
+            ItemCount.text = i.count < 2 ? "" : i.count + "";
             ItemSlot.sprite = Item.ItemSprites[i.type];
             currentWeapon = sword;
         } 
         else if (i.type == ItemType.Axe)
         {
+            ItemCount.text = i.count < 2 ? "" : i.count + "";
             ItemSlot.sprite = Item.ItemSprites[i.type];
             currentWeapon = axe;
         }
         else if (i.type == ItemType.Hammer)
         {
+            ItemCount.text = i.count < 2 ? "" : i.count + "";
             ItemSlot.sprite = Item.ItemSprites[i.type];
             currentWeapon = hammer;
         }
         else if (i.type == ItemType.Torch)
         {
+            ItemCount.text = i.count < 2 ? "" : i.count + "";
             ItemSlot.sprite = Item.ItemSprites[i.type];
             currentWeapon = torch;
         }
         else
         {
             ItemSlot.sprite = empty;
+            ItemCount.text = "";
             currentWeapon = fist;
         }
+        
         equipment.ChangeHand(currentWeapon);
     }
 

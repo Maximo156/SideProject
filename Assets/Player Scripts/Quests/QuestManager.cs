@@ -10,7 +10,7 @@ public class QuestManager : MonoBehaviour
     public static int questLimit = 10;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         questUI = GameObject.Find("QuestContainer").transform.GetChild(0).GetChild(0).GetComponent<QuestUI>();
         inv = GameObject.Find("Player").GetComponent<Inventory>();

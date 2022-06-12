@@ -7,9 +7,10 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private int slotCount = 30;
     [SerializeField] private UI_Inventory invUIScript;
+    [SerializeField] private OtherInvenUI OtherInvUIScript;
 
     private List<Item> itemList;
-    void Start()
+    void Awake()
     {
         
         itemList = new List<Item>();
@@ -21,7 +22,7 @@ public class Inventory : MonoBehaviour
         AddItem(new Item(ItemType.Axe, 1));
         //AddItem(new Item(ItemType.Sword, 1));
         AddItem(new Item(ItemType.Hammer, 1));
-        AddItem(new Item(ItemType.Torch, 1));
+        AddItem(new Item(ItemType.Torch, 50));
     }
 
     void FixedUpdate()
@@ -35,16 +36,25 @@ public class Inventory : MonoBehaviour
         
     }
 
+    public void SetUI(OtherInvenUI o)
+    {
+        OtherInvUIScript = o;
+    }
+
     public void UpdateSlots()
     {
         if(gameObject.name == "Player")
         {
             invUIScript.UpdateSlots(itemList);
+        } else if(OtherInvUIScript != null)
+        {
+            OtherInvUIScript.UpdateSlots(itemList);
         }
     }
     public Item AddItem(Item newItem)
     {
         GatherQuestUpdate update = new GatherQuestUpdate(newItem.Dup());
+        newItem = newItem.Dup();
         bool seen = false;
         for(int i = 0; i<itemList.Count; i++)
         {
@@ -58,13 +68,13 @@ public class Inventory : MonoBehaviour
             {
                 itemList.Insert(i, newItem);
                 UpdateSlots();
-                QuestManager.PushUpdate(update);
+                if (gameObject.name == "Player") QuestManager.PushUpdate(update);
                 return null;
             }
             if(newItem.count <= 0)
             {
                 UpdateSlots();
-                QuestManager.PushUpdate(update);
+                if (gameObject.name == "Player") QuestManager.PushUpdate(update);
                 return null;
             }
         }
@@ -72,7 +82,7 @@ public class Inventory : MonoBehaviour
         {
             itemList.Add(newItem);
             UpdateSlots();
-            QuestManager.PushUpdate(update);
+            if (gameObject.name == "Player") QuestManager.PushUpdate(update);
             return null;
         }
 
@@ -80,7 +90,7 @@ public class Inventory : MonoBehaviour
         Item.SpawnItem(newItem, transform.position + transform.forward / 2);
         update.item.count -= newItem.count;
 
-        QuestManager.PushUpdate(update);
+        if (gameObject.name == "Player") QuestManager.PushUpdate(update);
 
         return newItem;
     }
@@ -105,7 +115,7 @@ public class Inventory : MonoBehaviour
     {
         foreach(var it in toRemove)
         {
-            Item item = new Item(it.type, it.count);
+            Item item = it.Dup();
             GatherQuestUpdate update = new GatherQuestUpdate(item.Dup());
             update.item.count *= -1;
             QuestManager.PushUpdate(update);

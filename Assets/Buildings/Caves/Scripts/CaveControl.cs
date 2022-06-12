@@ -8,17 +8,22 @@ public class CaveControl : MonoBehaviour
 {
     public List<GameObject> Objects;
     public List<float> Chances;
+
+    public List<GameObject> Drillables;
+    public List<float> DrillChances;
+
+    public float spawnChance;
+    public float DrillableChance;
     public Material material;
+    
+
+    
+
+    public bool test;
     GameObject cave;
     BoxCollider post;
     VoxelArray caveVox;
     CaveGenerator.GenInfo info;
-
-    public void Start()
-    {
-        //post = gameObject.GetComponent<BoxCollider>();
-        //post.enabled = false;
-    }
 
     public void CaveActive()
     {
@@ -28,12 +33,10 @@ public class CaveControl : MonoBehaviour
             genCave();
             MakeCave();
             StartCoroutine(Spawn());
-
         }
         else
         {
             cave.SetActive(true);
-            //post.enabled = true;
         }
     }
 
@@ -41,7 +44,6 @@ public class CaveControl : MonoBehaviour
     {
         if (cave != null)
         {
-            //post.enabled = false;
             cave.SetActive(false);
         }
     }
@@ -49,7 +51,10 @@ public class CaveControl : MonoBehaviour
     public void genCave()
     {
         Random.seed = transform.position.GetHashCode();
-        caveVox = CaveGenerator.GenerateCave(30, 30, 30, out info, 70);
+        caveVox = CaveGenerator.GenerateCave(30, 15, 30, out info, 100);
+
+        caveVox[1, 1, 1] = 1;
+        caveVox[caveVox.Width-2, caveVox.Height-2, caveVox.Depth-2] = 1;
     }
 
     private void MakeCave()
@@ -69,7 +74,7 @@ public class CaveControl : MonoBehaviour
         marching.Surface = 0.2f;
         yield return StartCoroutine(marching.Generate(caveVox.Voxels, verts, indices));
 
-        CreateMesh32(verts, normals, indices, new Vector3(-98.03f, -105.91f, -41.89f));
+        CreateMesh32(verts, normals, indices, new Vector3(-98.32f, -60.4f, -41.89f));
         yield return null;
 
         startMechColliderThread(cave.GetComponent<MeshFilter>().mesh.GetInstanceID());
@@ -117,7 +122,7 @@ public class CaveControl : MonoBehaviour
         cave = go;
     }
 
-    public void test()
+    public void testGen()
     {
         for(int i = 1; i< caveVox.Width-1; i++)
         {
@@ -134,6 +139,7 @@ public class CaveControl : MonoBehaviour
 
     public void Mine(Vector3Int pos)
     {
+        /*
         if (pos.x == 0 || pos.y == 0 || pos.z == 0) return;
         GameObject old = cave;
         caveVox[pos.x, pos.y, pos.z] = 0;
@@ -151,6 +157,7 @@ public class CaveControl : MonoBehaviour
         caveVox[pos.x, pos.y, pos.z] = 1;
         MakeCave();
         Destroy(old);
+        */
     }
 
     private IEnumerator Spawn()
@@ -168,29 +175,59 @@ public class CaveControl : MonoBehaviour
                 {
                     if (info.intermediate[i, k, m] == 1)
                     {
-                        Physics.Raycast(cave.transform.position + new Vector3(i, k, m) * info.scale, new Vector3(Random.Range(0, 2), Random.Range(0, 2), Random.Range(0, 2)), out RaycastHit hitInfo, 10);
-                        if (hitInfo.transform != null && hitInfo.transform.name == "CaveMesh")
+                        if (Random.Range(0f, 1f) < spawnChance)
                         {
-                            int overlapTestBoxSize = 1;
-                            Vector3 overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize);
-                            Collider[] collidersInsideOverlapBox = new Collider[2];
-                            int numberOfCollidersFound = Physics.OverlapBoxNonAlloc(hitInfo.point, overlapTestBoxScale, collidersInsideOverlapBox);
-                            if (numberOfCollidersFound < 2)
+                            Physics.Raycast(cave.transform.position + new Vector3(i, k, m) * info.scale, new Vector3(Random.Range(-1f, 2), Random.Range(-1f, 2), Random.Range(-1f, 2)), out RaycastHit hitInfo, 10);
+                            if (hitInfo.transform != null && hitInfo.transform.name == "CaveMesh")
                             {
-                                float c = Random.Range(0f, 1f);
-                                float t = Chances[0];
-                                int index = 0;
-                                while (t < c)
+                                int overlapTestBoxSize = 1;
+                                Vector3 overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize);
+                                Collider[] collidersInsideOverlapBox = new Collider[2];
+                                int numberOfCollidersFound = Physics.OverlapBoxNonAlloc(hitInfo.point, overlapTestBoxScale, collidersInsideOverlapBox);
+                                if (numberOfCollidersFound < 2)
                                 {
-                                    index++;
-                                    t += Chances[Mathf.Min(Chances.Count-1, index)];
+                                    float c = Random.Range(0f, 1f);
+                                    float t = Chances[0];
+                                    int index = 0;
+                                    while (t < c)
+                                    {
+                                        index++;
+                                        t += Chances[Mathf.Min(Chances.Count - 1, index)];
+                                    }
+                                    Transform prim = Instantiate(Objects[Mathf.Min(Chances.Count - 1, index)]).transform;
+
+                                    prim.position = hitInfo.point;// + hitInfo.normal * 0.2f;
+                                    prim.up = hitInfo.normal;
+                                    prim.parent = cave.transform;
+                                    yield return null;
                                 }
-                                Transform prim = Instantiate(Objects[Mathf.Min(Chances.Count - 1, index)]).transform;
-                                
-                                prim.position = hitInfo.point + hitInfo.normal * 0.2f;
-                                prim.up = hitInfo.normal;
-                                prim.parent = transform;
-                                yield return null;
+                            }
+                        }
+                        if(Random.Range(0f, 1f) < DrillableChance)
+                        {
+                            Physics.Raycast(cave.transform.position + new Vector3(i, k, m) * info.scale, Vector3.down, out RaycastHit hitInfo, 10);
+                            if (hitInfo.transform != null && hitInfo.transform.name == "CaveMesh")
+                            {
+                                Vector3 overlapTestBoxScale = new Vector3(2, 0.1f, 2);
+                                Collider[] collidersInsideOverlapBox = new Collider[1];
+                                int numberOfCollidersFound = Physics.OverlapBoxNonAlloc(hitInfo.point + new Vector3(0, 0.4f, 0), overlapTestBoxScale, collidersInsideOverlapBox);
+
+                                if (numberOfCollidersFound < 1)
+                                {
+                                    float c = Random.Range(0f, 1f);
+                                    float t = DrillChances[0];
+                                    int index = 0;
+                                    while (t < c)
+                                    {
+                                        index++;
+                                        t += DrillChances[Mathf.Min(DrillChances.Count - 1, index)];
+                                    }
+                                    Transform prim = Instantiate(Drillables[Mathf.Min(DrillChances.Count - 1, index)]).transform;
+
+                                    prim.position = hitInfo.point;// + hitInfo.normal * 0.2f;
+                                    prim.parent = cave.transform;
+                                    yield return null;
+                                }
                             }
                         }
                     }

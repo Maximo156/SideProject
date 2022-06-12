@@ -1506,8 +1506,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3061573326207201088}
   - component: {fileID: 2885566072166603785}
-  - component: {fileID: 659915362}
-  - component: {fileID: 622727749708664958}
   m_Layer: 3
   m_Name: Control
   m_TagString: Untagged
@@ -1581,37 +1579,18 @@ MonoBehaviour:
   - 0.006
   - 0.006
   - 0.006
+  Drillables:
+  - {fileID: 3545188447701848563, guid: 1826570436d5575478a900baf4fbb08e, type: 3}
+  - {fileID: 936809420396488237, guid: 4572916f10fda7e45867a238010f37e1, type: 3}
+  - {fileID: 3972442822249840526, guid: 91f51bed619061d41bea00240cdc88e3, type: 3}
+  DrillChances:
+  - 0.5
+  - 0.25
+  - 0.25
+  spawnChance: 0.5
+  DrillableChance: 0.1
   material: {fileID: 2100000, guid: af038f38b424215469326e52d3365f7e, type: 2}
---- !u!114 &659915362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4751855779098031258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: e99cb4fbc307b05469d8e6c9f71ea89b, type: 2}
-  isGlobal: 0
-  blendDistance: 2.43
-  weight: 1
-  priority: 0
---- !u!65 &622727749708664958
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4751855779098031258}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 122.72034, y: 120.5811, z: 120}
-  m_Center: {x: -62.8711, y: -70.33373, z: 3.8594816}
+  test: 0
 --- !u!1 &5099186699746254048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +2510,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   PlayerOffset: 1.2
+  caveLight: 50
+  ambientLight: 125
 --- !u!1 &8442247600208618861
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ public static class CaveGenerator
         return cave;
     }
 
-    private static void Step(int x, int y, int z, int depth = 0, bool canBranch = true)
+    private static void Step(int x, int y, int z, int depth = 0, int canBranch = 3)
     {
         if (depth > maxDepth) return;
 
@@ -92,7 +92,7 @@ public static class CaveGenerator
                 if (zNext == z && z != 0 && z != zMax + 1)
                     xNext = x + Random.Range(x <= 1 ? 0 : -1, x >= xMax ? 1 : 2);
             }
-            if (xNext != x || zNext != z)
+            if ((xNext != x || zNext != z) && Random.Range(0f, 1f) < 0.3)
             {
                 yNext = y + Random.Range(y <= 1 ? 0 : -1, y >= yMax ? 1 : 2);
             }
@@ -108,9 +108,9 @@ public static class CaveGenerator
         } while (count < 20 && !valid);
         if (count == 20) return;
         Step(xNext, yNext, zNext, ++depth, canBranch);
-        if(canBranch && Random.Range(0f, 1f) < branchChance)
+        if(canBranch > 0 && Random.Range(0f, 1f) * depth*1f/maxDepth < branchChance)
         {
-            Step(xNext, yNext, zNext, ++depth, false);
+            Step(xNext, yNext, zNext, ++depth, canBranch--);
         }
     }
 

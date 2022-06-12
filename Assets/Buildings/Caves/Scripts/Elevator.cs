@@ -16,6 +16,9 @@ public class Elevator : MonoBehaviour
     [SerializeField] float speed = 0.2f;
     [SerializeField] float PlayerOffset = 1.2f;
 
+    public float caveLight;
+    public float ambientLight;
+
     void Start()
     {
         start = transform.position.y;
@@ -48,6 +51,18 @@ public class Elevator : MonoBehaviour
         yield break;
     }
 
+    public IEnumerator ChangeColor(bool dir)
+    {
+        float curLight = dir ? caveLight : ambientLight;
+        while (curLight <= ambientLight && curLight >= caveLight)
+        {
+            curLight += (dir ? 1 : -1 )*(ambientLight - caveLight) / (start - end) * speed * Time.deltaTime;
+            RenderSettings.ambientLight = new Color(curLight/256, curLight/256, curLight/256);
+            yield return null;
+        }
+
+    }
+
 
     void OnTriggerEnter(Collider col)
     {
@@ -63,7 +78,7 @@ public class Elevator : MonoBehaviour
 
             float pos = transform.position.y;
             StartCoroutine(Move(Mathf.Abs(start - pos) > Mathf.Abs(end - pos)));
-           
+            StartCoroutine(ChangeColor(Mathf.Abs(start - pos) > Mathf.Abs(end - pos)));
         }
     }
 
