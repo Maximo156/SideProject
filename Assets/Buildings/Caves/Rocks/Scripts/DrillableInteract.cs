@@ -15,8 +15,9 @@ public class DrillableInteract : InteractScript
         drill.SetActive(false);
         cost = transform.GetComponent<CostInfo>();
     }
-    public override bool Interactive()
+    public override bool Interactive(Item inHand)
     {
+        if (inHand == null || inHand.type != ItemType.Hammer) return false;
         Inventory inv = player.GetComponent<Inventory>();
         
         Dictionary<ItemType, int> found = new Dictionary<ItemType, int>();

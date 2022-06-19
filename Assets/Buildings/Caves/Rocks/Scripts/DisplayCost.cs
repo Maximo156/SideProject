@@ -33,7 +33,7 @@ public class DisplayCost : MonoBehaviour, IPointerEnterHandler
     {
         Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, 2);
         CostInfo c;
-        if (hitInfo.transform != null &&  (c = hitInfo.transform.GetComponent<CostInfo>()) != null)
+        if (UI_Inventory.inHand != null && UI_Inventory.inHand.type == ItemType.Hammer && hitInfo.transform != null &&  (c = hitInfo.transform.GetComponent<CostInfo>()) != null)
         {
             if (!Container.activeSelf)
             {

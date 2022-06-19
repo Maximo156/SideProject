@@ -24,7 +24,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
     private AttackScript attack;
     private bool menuOn = false;
     private InteractScript currentInteraction = null;
-    private Item inHand;
+    public static Item inHand;
     // Start is called before the first frame update
     private List<GameObject> slots = new List<GameObject>();
     void Start()
@@ -141,7 +141,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
                 {
                     AI.interacting = true;
                 }
-                if (interactObject.Interactive())
+                if (interactObject.Interactive(inHand))
                 {
                     ladder.ToggleGo(false);
                     player.ToggleGo(false);

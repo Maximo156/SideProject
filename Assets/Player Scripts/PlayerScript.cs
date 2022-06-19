@@ -37,10 +37,15 @@ public class PlayerScript : MonoBehaviour
             terrainInit = true;
         }
     }
-
+    float lastPress;
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Time.time - lastPress < 0.5) freecam = !freecam;
+            lastPress = Time.time;
+        }
         if (go && terrainInit)
         {
             if (freecam)

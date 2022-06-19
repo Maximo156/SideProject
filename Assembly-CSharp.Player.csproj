@@ -96,6 +96,7 @@
     <Compile Include="Assets\TerrainScripts\TerrainLODController.cs" />
     <Compile Include="Assets\TerrainScripts\HeightNoise.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\CaveMine.cs" />
+    <Compile Include="Assets\Buildings\FurnaceProduce.cs" />
     <Compile Include="Assets\AI\OtherAI.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\VoxelArray.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\MarchingTertahedron.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\Player Scripts\Quests\VillagerQuestUI.cs" />
     <Compile Include="Assets\Buildings\Parts\scripts\DetailSpawner.cs" />
     <Compile Include="Assets\AI\Models\AnimationScript.cs" />
+    <Compile Include="Assets\Buildings\GenericProduce.cs" />
     <Compile Include="Assets\Buildings\BuildingUnifier.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingGenerator.cs" />
     <Compile Include="Assets\TerrainScripts\TerrainGenerator.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Assets\AI\AIManager.cs" />
     <Compile Include="Assets\Player Scripts\InventoryAssets\Crafting.cs" />
     <Compile Include="Assets\Buildings\TownScripts\BuildingSettings.cs" />
+    <Compile Include="Assets\Buildings\Consume.cs" />
     <Compile Include="Assets\Buildings\Caves\Scripts\Cave.cs" />
     <Compile Include="Assets\Buildings\Caves\CaveWrapper.cs" />
     <Compile Include="Assets\Buildings\Caves\Rocks\Scripts\DrillAnimations.cs" />
@@ -130,9 +133,6 @@
     <Compile Include="Assets\Buildings\Caves\Scripts\MarchingCubes\Marching\Marching.cs" />
     <Compile Include="Assets\Player Scripts\AttackScript.cs" />
     <Compile Include="Assets\Player Scripts\Location.cs" />
-    <Compile Include="Assets\Buildings\Consume.cs" />
-    <Compile Include="Assets\Buildings\GenericProduce.cs" />
-    <Compile Include="Assets\Buildings\FurnaceProduce.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Unity\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />

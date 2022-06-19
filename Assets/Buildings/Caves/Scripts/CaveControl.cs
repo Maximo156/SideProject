@@ -74,7 +74,7 @@ public class CaveControl : MonoBehaviour
         marching.Surface = 0.2f;
         yield return StartCoroutine(marching.Generate(caveVox.Voxels, verts, indices));
 
-        CreateMesh32(verts, normals, indices, new Vector3(-98.32f, -60.4f, -41.89f));
+        CreateMesh32(verts, normals, indices, new Vector3(-97.88f, -60.87f, -41.89f));
         yield return null;
 
         startMechColliderThread(cave.GetComponent<MeshFilter>().mesh.GetInstanceID());

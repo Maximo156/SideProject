@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class InteractScript : MonoBehaviour
 {
-    public abstract bool Interactive();
+    public abstract bool Interactive(Item inHand);
 
     public abstract void Respond(Item r);
 

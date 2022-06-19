@@ -18,7 +18,7 @@ public class ChestInteract : InteractScript
         inv = gameObject.GetComponent<Inventory>();
         inv.GetItems().Clear();
     }
-    public override bool Interactive()
+    public override bool Interactive(Item inHand)
     {
         InteractiveContainerUI.SetActive(true);
         InteractiveContainerUI.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = gameObject.name;

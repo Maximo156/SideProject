@@ -17,7 +17,9 @@ public class Inventory : MonoBehaviour
         //AddItem( new Item( ItemType.Stick, 1 ) );
         //AddItem(new Item(ItemType.Stick, 3));
         //AddItem(new Item(ItemType.Rock, 3));
-        AddItem(new Item(ItemType.IronOre, 99));
+        AddItem(new Item(ItemType.IronBar, 99));
+        AddItem(new Item(ItemType.CopperBar, 99));
+        AddItem(new Item(ItemType.Ruby, 3));
         AddItem(new Item(ItemType.Wood, 99));
         AddItem(new Item(ItemType.Axe, 1));
         //AddItem(new Item(ItemType.Sword, 1));

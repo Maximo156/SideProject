@@ -43,7 +43,7 @@ public class VillagerInteract : InteractScript
         }
     }
 
-    public override bool Interactive()
+    public override bool Interactive(Item inHand)
     {
         InteractiveContainer.SetActive(true);
         InteractiveContainer.transform.Find("PotentialQuests").GetChild(0).GetComponent<VillagerQuestUI>().UpdateSlots(potentialQuests);
