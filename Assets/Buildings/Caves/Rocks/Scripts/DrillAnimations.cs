@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ RequireComponent(typeof(Consume))]
 public class DrillAnimations : MonoBehaviour
 {
     private GameObject particles;
     private GameObject drill;
-    private ConsumeProduce consumeProduce;
+    private Consume consume;
     // Start is called before the first frame update
     void Start()
     {
         particles = transform.GetChild(0).GetChild(1).gameObject;
         drill = transform.GetChild(0).GetChild(0).gameObject;
-        consumeProduce = gameObject.GetComponent<ConsumeProduce>();
+        consume = gameObject.GetComponent<Consume>();
     }
 
     
@@ -20,7 +21,7 @@ public class DrillAnimations : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (consumeProduce.Producing())
+        if (consume.Producing())
         {
             particles.SetActive(true);
             drill.transform.Rotate(rot * Time.deltaTime);

@@ -17,12 +17,13 @@ public class Inventory : MonoBehaviour
         //AddItem( new Item( ItemType.Stick, 1 ) );
         //AddItem(new Item(ItemType.Stick, 3));
         //AddItem(new Item(ItemType.Rock, 3));
-        AddItem(new Item(ItemType.Stick, 99));
+        AddItem(new Item(ItemType.IronOre, 99));
         AddItem(new Item(ItemType.Wood, 99));
         AddItem(new Item(ItemType.Axe, 1));
         //AddItem(new Item(ItemType.Sword, 1));
         AddItem(new Item(ItemType.Hammer, 1));
         AddItem(new Item(ItemType.Torch, 50));
+        AddItem(new Item(ItemType.Furnace, 1));
     }
 
     void FixedUpdate()
@@ -115,30 +116,36 @@ public class Inventory : MonoBehaviour
     {
         foreach(var it in toRemove)
         {
-            Item item = it.Dup();
-            GatherQuestUpdate update = new GatherQuestUpdate(item.Dup());
-            update.item.count *= -1;
-            QuestManager.PushUpdate(update);
+            RemoveItem(it);
+        }
+    }
 
-            for (int i = 0; i< itemList.Count; i++)
+    public void RemoveItem(Item toRemove)
+    {
+        Item item = toRemove.Dup();
+        GatherQuestUpdate update = new GatherQuestUpdate(item.Dup());
+        update.item.count *= -1;
+        QuestManager.PushUpdate(update);
+
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i].type == item.type)
             {
-                if(itemList[i].type == item.type)
+                itemList[i].count -= item.count;
+                item.count = 0;
+                if (itemList[i].count <= 0)
                 {
-                    itemList[i].count -= item.count;
-                    item.count = 0;
-                    if (itemList[i].count <= 0)
-                    {
-                        item.count = -itemList[i].count;
-                        itemList.RemoveAt(i);
-                        i--;
-                    }
-                }
-                if(item.count < 1)
-                {
-                    break;
+                    item.count = -itemList[i].count;
+                    itemList.RemoveAt(i);
+                    i--;
                 }
             }
+            if (item.count < 1)
+            {
+                break;
+            }
         }
+        UpdateSlots();
     }
 
     public List<Item> GetItems()

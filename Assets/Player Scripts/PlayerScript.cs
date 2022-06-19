@@ -16,13 +16,15 @@ public class PlayerScript : MonoBehaviour
     public bool freecam;
     public float freecamSpeed = 30f;
     public float vertSpeed = 30f;
-    public static bool go = false;
+    protected static bool go = false;
     public Vector2 StartingPos;
-    new public Camera camera;
+    public Camera camera;
+    private static bool terrainInit = false;
 
     // Use this for initialization
     void Start()
     {
+        go = false;
         if(moveAtStart)
         transform.position = new Vector3(StartingPos.x, HeightNoise.getHeight(new Vector3(StartingPos.x, 0, StartingPos.y))[0]+1, StartingPos.y);
         Cursor.lockState = CursorLockMode.Locked;
@@ -30,16 +32,16 @@ public class PlayerScript : MonoBehaviour
 
     public static void SetHeight()
     {
-        if (!go)
+        if (!terrainInit)
         {
-            go = true;
+            terrainInit = true;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (go)
+        if (go && terrainInit)
         {
             if (freecam)
             {

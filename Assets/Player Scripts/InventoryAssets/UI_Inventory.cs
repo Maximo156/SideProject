@@ -130,7 +130,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
 
     public void Interact()
     {
-        Physics.Raycast(cameraTrans.position, cameraTrans.forward, out RaycastHit info, 3);
+        Physics.Raycast(cameraTrans.position, cameraTrans.forward, out RaycastHit info, 2, Physics.AllLayers);
         if (info.transform != null)
         {
             InteractScript interactObject = info.transform.gameObject.GetComponent<InteractScript>();
@@ -153,16 +153,22 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
             {
                 if (inHand != null && inHand.Placable())
                 {
-                    Vector3 dir = info.normal;
+                    Vector3 dirOld = info.normal;
+                    Vector3 dir = new Vector3(dirOld.x, dirOld.y, dirOld.z);
                     dir.y = 0;
                     dir = Vector3.Normalize(dir);
-                    GameObject t = Instantiate(Item.PlacableModels[inHand.type], info.point, Quaternion.identity, info.transform );
-                    t.transform.forward = dir;
-                    if((inHand.count -= 1) < 1)
+
+                    if (Vector3.Angle(dir, dirOld) > Item.minNormalAngle[inHand.type])
                     {
-                        inHand = null;
+                        GameObject t = Instantiate(Item.PlaceableModels[inHand.type], info.point, Quaternion.identity, info.transform);
+                        t.name = Item.PlaceableModels[inHand.type].name;
+                        t.transform.forward = dir;
+                        if ((inHand.count -= 1) < 1)
+                        {
+                            inHand = null;
+                        }
+                        SetAttack(inHand);
                     }
-                    SetAttack(inHand);
                 }
             }
         }
@@ -211,7 +217,7 @@ public class UI_Inventory : MonoBehaviour, IPointerEnterHandler
                 SetAttack(inHand);
                 UpdateSlots(itemList);
             }
-            if (currentInteraction == null)
+            else if (currentInteraction == null)
             {
                 
                 if(inHand != null) itemList.Add(inHand);

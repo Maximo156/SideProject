@@ -17,6 +17,10 @@ public enum ItemType
     Ruby,
     Torch,
     Coal,
+    Furnace,
+    CopperBar, 
+    IronBar,
+    GoldBar
 }
 [Serializable]
 public class Item 
@@ -27,6 +31,7 @@ public class Item
         {(new Item(ItemType.Torch, 1),  new List<Item>(){new Item(ItemType.Wood, 1), new Item(ItemType.Coal, 1) }) },
         {(new Item(ItemType.Sword, 1),  new List<Item>(){new Item(ItemType.Wood, 1), new Item(ItemType.Stick, 2), new Item(ItemType.Rock, 3) }) },
         {(new Item(ItemType.Axe, 1),  new List<Item>(){new Item(ItemType.Stick, 3), new Item(ItemType.Rock, 3) }) },
+        {(new Item(ItemType.Furnace, 1),  new List<Item>(){new Item(ItemType.Rock, 20), new Item(ItemType.Coal, 5) }) },
     };
     public static void SpawnItem(Item item, Vector3 loc)
     {
@@ -46,9 +51,13 @@ public class Item
         {ItemType.IronOre, 99 },
         {ItemType.CopperOre, 99 },
         {ItemType.Coal, 99 },
+        {ItemType.CopperBar, 99 },
+        {ItemType.IronBar, 99 },
+        {ItemType.GoldBar, 99 },
         {ItemType.GoldOre, 99 },
         {ItemType.Emerald, 50 },
         {ItemType.Ruby, 50 },
+        {ItemType.Furnace, 50 },
     };
 
     public static Dictionary<ItemType, Sprite> ItemSprites = new Dictionary<ItemType, Sprite>(){
@@ -65,11 +74,22 @@ public class Item
         {ItemType.Ruby, Resources.Load<Sprite>("Ruby") },
         {ItemType.Torch, Resources.Load<Sprite>("Torch") },
         {ItemType.Coal, Resources.Load<Sprite>("Coal") },
+        {ItemType.Furnace, Resources.Load<Sprite>("Furnace") },
+        {ItemType.CopperBar, Resources.Load<Sprite>("CopperBar") },
+        {ItemType.IronBar, Resources.Load<Sprite>("IronBar") },
+        {ItemType.GoldBar, Resources.Load<Sprite>("GoldBar") },
     };
 
-    public static Dictionary<ItemType, GameObject> PlacableModels = new Dictionary<ItemType, GameObject>()
+    public static Dictionary<ItemType, GameObject> PlaceableModels = new Dictionary<ItemType, GameObject>()
     {
-        {ItemType.Torch, Resources.Load<GameObject>("Tools/Torch") },
+        {ItemType.Torch, Resources.Load<GameObject>("Placeables/Torch") },
+        {ItemType.Furnace, Resources.Load<GameObject>("Placeables/Furnace") },
+    };
+
+    public static Dictionary<ItemType, float> minNormalAngle = new Dictionary<ItemType, float>()
+    {
+        {ItemType.Torch,  0},
+        {ItemType.Furnace, 70 },
     };
 
     public ItemType type;
@@ -83,13 +103,13 @@ public class Item
 
     public bool Holdable()
     {
-        if (type == ItemType.Axe || type == ItemType.Sword || type == ItemType.Hammer || type == ItemType.Torch) return true;
+        if (type == ItemType.Axe || type == ItemType.Sword || type == ItemType.Hammer || type == ItemType.Torch || type == ItemType.Furnace) return true;
         return false;
     }
 
     public bool Placable()
     {
-        return type == ItemType.Torch;
+        return type == ItemType.Torch || type == ItemType.Furnace;
     }
 
     public Item Dup()

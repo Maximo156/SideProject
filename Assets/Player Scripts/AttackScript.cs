@@ -33,11 +33,13 @@ public class AttackScript : MonoBehaviour
     private static AttackInfo hammer = new AttackInfo { baseDamage = 3, type = WeaponType.Hammer, multiplier = 1, range = 1.75f};
 
     private AttackInfo currentWeapon = fist;
+    private Transform cam;
     // Start is called before the first frame update
     void Start()
     {
         ItemSlot.sprite = empty;
         ItemCount.text = "";
+        cam = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -54,8 +56,8 @@ public class AttackScript : MonoBehaviour
 
     public void Attack()
     {
-        Debug.DrawRay(transform.position, transform.forward*currentWeapon.range);
-        Physics.Raycast(transform.position, transform.forward, out RaycastHit info, currentWeapon.range);
+        Debug.DrawRay(cam.position, cam.forward*currentWeapon.range);
+        Physics.Raycast(cam.position, cam.forward, out RaycastHit info, currentWeapon.range, Physics.AllLayers);
 
         if (info.transform != null && info.distance < currentWeapon.range)
         {
@@ -86,41 +88,36 @@ public class AttackScript : MonoBehaviour
 
     public void SetAttack(Item i)
     {
-        if(i == null)
+        if(i == null || !i.Holdable())
         {
             ItemSlot.sprite = empty;
             ItemCount.text = "";
             currentWeapon = fist;
-        }
-        else if(i.type == ItemType.Sword) 
-        {
-            ItemCount.text = i.count < 2 ? "" : i.count + "";
-            ItemSlot.sprite = Item.ItemSprites[i.type];
-            currentWeapon = sword;
-        } 
-        else if (i.type == ItemType.Axe)
-        {
-            ItemCount.text = i.count < 2 ? "" : i.count + "";
-            ItemSlot.sprite = Item.ItemSprites[i.type];
-            currentWeapon = axe;
-        }
-        else if (i.type == ItemType.Hammer)
-        {
-            ItemCount.text = i.count < 2 ? "" : i.count + "";
-            ItemSlot.sprite = Item.ItemSprites[i.type];
-            currentWeapon = hammer;
-        }
-        else if (i.type == ItemType.Torch)
-        {
-            ItemCount.text = i.count < 2 ? "" : i.count + "";
-            ItemSlot.sprite = Item.ItemSprites[i.type];
-            currentWeapon = torch;
         }
         else
         {
-            ItemSlot.sprite = empty;
-            ItemCount.text = "";
-            currentWeapon = fist;
+            ItemCount.text = i.count < 2 ? "" : i.count + "";
+            ItemSlot.sprite = Item.ItemSprites[i.type];
+        }
+
+        if (i != null)
+        {
+            if (i.type == ItemType.Sword)
+            {
+                currentWeapon = sword;
+            }
+            else if (i.type == ItemType.Axe)
+            {
+                currentWeapon = axe;
+            }
+            else if (i.type == ItemType.Hammer)
+            {
+                currentWeapon = hammer;
+            }
+            else if (i.type == ItemType.Torch)
+            {
+                currentWeapon = torch;
+            }
         }
         
         equipment.ChangeHand(currentWeapon);

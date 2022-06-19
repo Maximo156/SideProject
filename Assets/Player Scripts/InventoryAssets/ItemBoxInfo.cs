@@ -31,10 +31,7 @@ public class ItemBoxInfo : MonoBehaviour
 
     public List<Item> GetItem()
     {
-        if (Time.time - time > 3){
-            return items;
-        }
-        return null;
+        return items;
     }
 
     public List<Item> Items()

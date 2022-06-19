@@ -262,8 +262,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cost:
-  - type: 0
-    count: 4
+  - type: 15
+    count: 20
+  - type: 14
+    count: 3
+  - type: 10
+    count: 1
   name: Drill
 --- !u!114 &3213925019793170157
 MonoBehaviour:
@@ -344,7 +348,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8552344813913680845, guid: 542697695dc442947822d63436830e83, type: 3}
   m_PrefabInstance: {fileID: 7765097103168166285}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6286441466335886384
+--- !u!114 &4135657173205770354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,13 +357,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2516436530974658482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc9f8e7b5e97504f8ab82097a9d0ebd, type: 3}
+  m_Script: {fileID: 11500000, guid: 432b26378b7b674478441876d806f44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  produce:
+  toProduce:
     type: 6
-    count: 1
-  consume:
-    type: 12
     count: 2
-  ratePerSecond: 0.5
+  timePer: 10
