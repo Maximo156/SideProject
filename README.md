@@ -31,11 +31,13 @@ Various types of structures are generated throughout the world: three village ty
 ### Villages
 
 The basic villages are generated as simple houses and have two variants. Villagers spawn and roam around offering quests to the player
+
 <img src="https://github.com/user-attachments/assets/4fb29364-e57e-4b2b-abcb-ef192f683cc6" width="500">
 <img src="https://github.com/user-attachments/assets/fee070ca-af2d-4141-a2b1-fda5384595f7" width="500">
 <img src="https://github.com/user-attachments/assets/ec2d9f8c-851a-4a0c-bae0-bfd7016731f6" width="500">
 
 The third village type are ruins of a town with skeletons that will attack the player if they venture too close
+
 <img src="https://github.com/user-attachments/assets/193473d5-b19d-4f33-895f-ee7625023281" width="500">
 <img src="https://github.com/user-attachments/assets/964e5349-0d8f-47b6-9749-b643fd870f84" width="500">
 <img src="https://github.com/user-attachments/assets/1ae0466d-3fb6-44db-aab0-9dfb6f253009" width="500">
