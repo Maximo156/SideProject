@@ -62,8 +62,4 @@ With the help of a specific vein type and a miner, they can also automate the ha
 # Building System
 There is a basic building system, allowing the player to set up a base
 
-https://github.com/user-attachments/assets/843a5276-2005-47c3-8c10-0f3b834df867
-
-
-
-
+https://github.com/user-attachments/assets/24842858-919e-406e-be4e-07ae79fc227b
